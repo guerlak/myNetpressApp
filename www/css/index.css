@@ -1,0 +1,132 @@
+
+body{
+    background-color: #ffffff;
+    
+        padding-top: constant(safe-area-inset-top);
+        padding-top: env(safe-area-inset-top);
+    
+}
+
+#user-info-logo{
+    margin: 2%;
+}
+
+/* #manchete-img {
+    border: 3px dashed #0066cc;
+} */
+
+#texto-noticia{
+    padding-left: 4%;
+    padding-right: 4%;
+    margin-bottom: 90px;
+}
+
+#titulo-noticia{
+    padding-left: 4%;
+    padding-right: 4%;
+}
+
+.error {
+    text-align: center;
+    color: #b3b3b3;
+    padding: 10%;
+    margin-top: 50%;
+} 
+
+hr{
+    margin: 3%;
+    color: #e2e0e0;
+    border: solid 1px;
+}
+
+.noticiasTexto-btn{
+    margin: 0px 15px 0px 15px;
+}
+
+.icons-share{
+    color: #2B59C3;
+}
+
+#searchDiv{
+    margin-top: 10px;
+}
+
+#manchetes-images{
+    
+    display: inline-block;
+    text-align: center;
+}
+
+
+#manchetes-images-tab{
+    
+    display: inline-block;
+    text-align: center;
+}
+
+#manchetes-images-tab div {
+    display: inline-block;
+    margin: 5px;   
+    border: 0px solid white;
+    border-radius: 0px 8px;
+    padding: 7px;
+    background: linear-gradient(to bottom right, white, rgb(223, 223, 223));
+    width: 40%; 
+    min-height: 12em;
+}
+
+#manchetes-images div {
+    display: inline-block;
+    margin: 5px;   
+    border: 0px solid white;
+    border-radius: 0px 8px;
+    padding: 7px;
+    background: linear-gradient(to bottom right, white, rgb(223, 223, 223));
+    width: 40%; 
+    min-height: 12em;
+}
+
+.mancheteImgs{
+  height: 11em;
+}
+
+#zoom-manchete-img{
+    width:100%; 
+    height:100vh;
+}
+
+.dialog{
+    min-width: 90%;
+}
+
+ons-progress-circular{
+    margin-top: 10px;
+}
+
+ .select{
+    padding: 14px;
+} 
+
+.icon-noticias-list{
+  color: rgb(32, 93, 173);
+  font-size: 1.5em;
+}
+
+.disabled{
+   color: rgb(199, 199, 199);
+}
+
+@media only screen and (min-width: 768px) {
+    .mancheteImgs{
+        height: 50em;
+    }
+
+    #manchetes-images div {
+        margin: 1em;
+        min-height: 32em;
+    }
+
+    .dialog{
+        min-width: 30%;
+    }
+}

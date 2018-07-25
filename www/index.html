@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+
+<html>
+
+    <head>
+        <meta charset="utf-8">
+        <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *; img-src 'self' data: content:;"> -->
+        <meta http-equiv="Content-Security-Policy" content="default-src * data: gap: https://ssl.gstatic.com; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'"> 
+
+        <meta name="viewport" content="height=device-height, initial-scale=1.0, viewport-fit=cover">
+     
+        <link rel="stylesheet" href="lib/css/onsen-css-components.min.css">
+        <link rel="stylesheet" href="lib/css/onsenui.min.css">
+        <link rel="stylesheet" href="css/index.css">
+        <script src="lib/js/onsenui.min.js"></script>
+        <script src="lib/js/jquery.min.js"></script>
+        <script src="cordova.js"></script>
+
+      <title>MyNetpressApp</title>
+
+    </head>
+
+<body>
+
+<ons-splitter>
+  <ons-splitter-side id="menu" side="left" width="220px" collapse>
+  <ons-page>
+    <ons-list>
+      <ons-list-item style="background-color: #4b76c1">
+        <img width='100px' src="img/manchete.png" onclick="myNavigator.resetToPage('tab-bar-home.html');">
+      </ons-list-item>
+
+      <!-- <ons-list-item onclick="fn.load('home.html')" tappable>
+      <div class="left">
+          <ons-icon icon="md-home" class="list-item__icon"></ons-icon>
+        </div>
+        <div class="center">
+            Home
+        </div>
+      </ons-list-item> -->
+
+      <ons-list-item onclick="myNavigator.pushPage('login.html');menu.close();" tappable>
+        <div class="left">
+            <ons-icon icon="md-check-circle" class="list-item__icon"></ons-icon>
+          </div>
+          <div class="center">
+              Login
+          </div>            
+      </ons-list-item>
+
+      <ons-list-item onclick="fn.load('user-info.html');" tappable>
+          <div class="left">
+              <ons-icon icon="md-account-box" class="list-item__icon"></ons-icon>
+            </div>
+            <div class="center">
+                Utilizador
+            </div>    
+      </ons-list-item>
+
+      <ons-list-header style="background-color: #4b76c1; color: #fff">NOTÍCIAS</ons-list-header>
+
+      <!-- <ons-list-item onclick="fn.load('manchetes.html')" ripple>
+        Manchetes
+      </ons-list-item> -->
+
+      <ons-list-item onclick="fn.load('noticias.html');" tappable > 
+        Notícias do dia
+      </ons-list-item>
+      <ons-list-item onclick="fn.load('noticias-dia-tema.html');" tappable>
+        Notícias do dia <span style="color: rgb(173, 172, 172); margin-left: 1ch">(por tema)</span> 
+      </ons-list-item>
+      <ons-list-item onclick="fn.load('pesquisa.html')" tappable>
+        Pesquisa
+      </ons-list-item>
+
+      <!-- <ons-list-item>
+        <span style="color: rgb(173, 172, 172);">Favoritos</span>
+      </ons-list-item> -->
+      <!-- <ons-list-item onclick="fn.load('home.html');" tappable > 
+        Teste home
+      </ons-list-item> -->
+      
+      <ons-list-header style="background-color: #4b76c1; color: #fff">IMPRENSA ESCRITA</ons-list-header>
+      <ons-list-item onclick="fn.load('imp-nacional.html');" tappable>
+        Imprensa Nacional
+      </ons-list-item>
+      <ons-list-item onclick="fn.load('imp-internacional.html');" tappable>
+        Imprensa Internacional
+      </ons-list-item>
+      <ons-list-item onclick="fn.load('imp-regional.html');" tappable>
+        Imprensa Regional
+      </ons-list-item>
+      <ons-list-header style="background-color: #4b76c1; color: #fff">IMPRENSA ONLINE</ons-list-header>
+
+      <ons-list-item onclick="fn.load('redes-sociais.html')" tappable>
+        Social Media
+      </ons-list-item>
+      <ons-list-item onclick="fn.load('internet.html')" tappable>
+          Internet
+      </ons-list-item>
+      <ons-list-item onclick="fn.load('blogs.html')" tappable>
+          Blogs
+      </ons-list-item>
+      <ons-list-header style="background-color: #4b76c1; color: #fff">AUDIOVISUAIS</ons-list-header>
+      <ons-list-item onclick="fn.load('televisao.html')" tappable>
+          Televisão
+      </ons-list-item>
+      <ons-list-item onclick="fn.load('radio.html');" tappable>
+          Rádio
+      </ons-list-item>
+      <!-- <ons-list-header style="background-color: #4b76c1; color: #fff">TEMAS</ons-list-header>
+      <ons-list-item onclick="myNavigator.resetToPage('tab-bar.html');menu.close();" tappable>
+          Tab bar
+      </ons-list-item> -->
+     
+    </ons-list>
+  </ons-page>
+</ons-splitter-side>
+
+<!-- <ons-splitter-content id="content" page="home.html"></ons-splitter-content> -->
+
+  <ons-splitter-content>
+    <ons-navigator id="myNavigator" page="tab-bar-home.html"></ons-navigator>
+  </ons-splitter-content> 
+
+</ons-splitter>
+
+
+<template id="noticia-texto.html">
+  
+    <ons-page id='noticia-texto'>
+  
+      <ons-toolbar>
+        <div class="left">
+            <ons-back-button>Back</ons-back-button>
+        </div>
+        <div class="center">
+          Noticia
+        </div>
+      </ons-toolbar>
+  
+      <div id="browse-btns"></div>
+    
+      <hr>
+  
+      <h4 id="titulo-noticia"></h4>
+  
+      <div id="progress_bar"></div>
+  
+      <div id="texto-noticia"></div>
+  
+  
+        <ons-speed-dial  position="bottom right" direction="up">
+          <ons-fab style="background-color: white">
+            <ons-icon  icon="md-share" class="icons-share"></ons-icon>
+          </ons-fab>
+          <ons-speed-dial-item style="background-color: white">
+            <ons-icon onclick="shareTwitter();" icon="md-twitter" class="icons-share"></ons-icon>
+          </ons-speed-dial-item>
+          <ons-speed-dial-item style="background-color: white">
+            <ons-icon onclick="shareFacebook();" icon="md-facebook" class="icons-share"></ons-icon>
+          </ons-speed-dial-item>
+          <ons-speed-dial-item style="background-color: white">
+            <ons-icon onclick="shareEmail();" icon="md-email" class="icons-share"></ons-icon>
+          </ons-speed-dial-item>
+        </ons-speed-dial>
+  
+  
+      <script>
+        ons.getScriptPage().onInit = function() {
+          runNoticiasTexto();
+        };
+      </script>
+  
+    </ons-page>
+</template>
+
+
+<template id="manchetes.html">
+  <ons-page id="manchetes">
+    <ons-toolbar>
+      <div class="left">
+        <ons-toolbar-button onclick="fn.open()">
+          <ons-icon icon="md-menu"></ons-icon>
+        </ons-toolbar-button>
+      </div>
+      <div class="center">
+        Manchetes do dia
+      </div>
+    </ons-toolbar> 
+
+    <div id="manchetes-images"></div>
+
+    <div id="sem-manchete"></div>
+
+
+    <script src="js/manchetes.js"></script>
+  </ons-page>
+</template>
+
+
+<template id="noticias.html">
+
+  <ons-page id="noticias" >
+
+    <ons-toolbar>
+      <div class="left">
+          <ons-back-button>Back</ons-back-button>
+      </div>
+      <div class="center">
+        Noticias do dia
+      </div>
+    </ons-toolbar>
+
+    <ons-pull-hook id="pull-hook-noticia">
+      Pull to refresh
+    </ons-pull-hook>
+
+    <div id="progress_bar"></div>
+
+    <ons-list>
+      <ons-lazy-repeat id="noticias-list"></ons-lazy-repeat>
+    </ons-list>
+
+    <div id="sem-noticia"></div>
+
+    <script>
+      ons.getScriptPage().onInit = function() {
+        runNoticias();
+      };
+    </script>
+
+  </ons-page>
+
+</template>
+
+
+<template id="pesquisa.html">
+
+    <ons-page id="pesquisa">
+      <ons-toolbar>
+        <div class="left">
+          <ons-back-button>Back</ons-back-button>
+      </div>
+        <div class="center">
+          Pesquisa
+        </div>
+      </ons-toolbar>
+
+      <div id="searchDiv">
+      
+          <ons-list modifier='inset'>
+
+            <ons-list-header>
+              <strong>Tema</strong>
+            </ons-list-header>
+            <ons-list-item id="select_temas">
+            </ons-list-item>
+
+            <ons-list-header>
+                <strong>Meio</strong>
+                </ons-list-header>
+                <ons-list-item id="select_meios">
+              </ons-list-item>
+
+            <ons-list-header>
+              <strong>Publicação</strong>
+              </ons-list-header>
+              <ons-list-item id="select_publicacao">
+                  <ons-select id="meio">;
+                      <option value="defina o meio acima" disabled selected></option>
+              </ons-select>
+            </ons-list-item>
+
+        </ons-list>
+
+          <ons-list modifier='inset' style="margin-top: 5%">
+            <ons-list-header>
+           
+            </ons-list-header>
+            <ons-list-item>
+              <ons-input type="text" id="palavra1" placeholder='Palavra 1'></ons-input>
+            </ons-list-item>
+
+            <ons-list-header>
+            </ons-list-header>
+
+            <ons-list-item>
+              <label class="left">
+                  <ons-radio name="operador" id="or" input-id="radio-2" value="or" checked></ons-radio>
+              </label>
+              <label for="radio-2" class="center">
+                <strong>ou</strong>
+              </label>
+          </ons-list-item>
+
+
+            <ons-list-item>
+                <label class="left">
+                  <ons-radio name="operador" id="and" input-id="radio-1" value="and" ></ons-radio>
+                </label>
+                <label for="radio-1" class="center">
+                  <strong>e</strong>
+                </label>
+            </ons-list-item>
+              
+
+            <ons-list-header>
+                  
+              </ons-list-header>
+              <ons-list-item>
+                <ons-input type="text" id="palavra2" placeholder='Palavra 2'></ons-input>
+            </ons-list-item>
+
+          </ons-list>
+
+          <ons-list modifier='inset' style="margin-top: 5%">
+            <ons-list-header>
+              <ons-label class="center"><strong>data início</strong></ons-label>
+            </ons-list-header>
+            <ons-list-item>
+              <ons-input class="center" id="data-inicio" type="date" value=""></ons-input>
+            </ons-list-item>
+          
+            <ons-list-header>
+              <ons-label class="center"><strong>data fim</strong></ons-label>
+              </ons-list-header>
+              <ons-list-item>
+              <ons-input class="center" id="data-fim" type="date" value=""></ons-input>
+            </ons-list-item>
+          </ons-list>
+
+          <div style="padding: 8px">
+            <ons-button modifier="large" style="margin-top: 5%; margin-bottom: 5%;" href="#" onclick="runSearch()">Pesquisar</ons-button>
+          </div>
+
+      </div>
+
+      <ons-list id="noticias-list"></ons-list>
+
+      <script>
+        ons.getScriptPage().onInit = function() {
+          runPesquisa();
+        };
+      </script>
+    </ons-page>
+</template>
+
+
+<template id="pesquisa-texto.html">
+  
+  <ons-page id='pesquisa-texto'>
+    <ons-toolbar>
+      <div class="right">
+        <ons-back-button swipeable onclick="fn.load('pesquisa.html')">Voltar</ons-back-button>
+        </div>
+
+      <div class="center">
+        Noticia
+      </div>
+    </ons-toolbar>
+
+    <div class="center" id="progress_bar"></div>
+
+    <div style="margin-top: 3%">
+        <div style="float: left;" id="browse-btns"></div>
+    </div>
+
+    <hr style="margin-top: 17%">
+
+    <h3>
+        <div id="titulo-noticia"></div>
+    </h3>
+
+    <div id="progress_bar"></div>
+
+    <div id="texto-noticia"></div>
+
+    <ons-speed-dial position="bottom right" direction="up">
+        <ons-fab>
+          <ons-icon icon="md-share"></ons-icon>
+        </ons-fab>
+        <ons-speed-dial-item>
+          <ons-icon onclick="shareTwitter();" icon="md-twitter"></ons-icon>
+        </ons-speed-dial-item>
+        <ons-speed-dial-item>
+          <ons-icon onclick="shareFacebook();" icon="md-facebook"></ons-icon>
+        </ons-speed-dial-item>
+        <ons-speed-dial-item>
+          <ons-icon onclick="shareEmail();" icon="md-email"></ons-icon>
+        </ons-speed-dial-item>
+    </ons-speed-dial>
+
+    <script>
+      ons.getScriptPage().onInit = function() {
+        runNoticiasTexto();
+      };
+    </script>
+
+  </ons-page>
+</template>
+
+
+<template id="login.html">
+
+    <ons-page id="login">
+
+      <ons-toolbar>
+        <div class="left">
+          <ons-back-button>Back</ons-back-button>
+      </div>
+        <div class="center">
+          Login
+        </div>
+      </ons-toolbar>
+
+      <div style="text-align: center; margin-top: 50px;">
+          <p>
+            <ons-input id="email" modifier="underbar" placeholder="e-mail" float></ons-input>
+          </p>
+          <p>
+            <ons-input id="password" modifier="underbar" type="password" placeholder="password" float></ons-input>
+          </p>
+          <p style="margin-top: 30px; padding: 10%;">
+            <ons-button modifier='large' onclick="loginRun()">Aceder</ons-button>
+          </p>
+        </div>
+
+      <div id="alert-wrong"></div>
+
+    </ons-page>
+
+</template>
+
+
+<template id="user-info.html">
+
+  <ons-page id="user-info">
+
+    <ons-toolbar>
+      <div class="left">
+        <ons-back-button>Back</ons-back-button>
+    </div>
+      <div class="center">
+        Informações do Utilizador
+      </div>
+    </ons-toolbar>
+
+    <div id="progress_bar"></div>
+
+    <div id="user-logo">
+    </div>
+    <div style="margin-top: 10px;">
+        <ons-list id="user-info-list" modifier="inset"></ons-list>
+    </div>
+    <div style='padding: 5%'>
+
+        <ons-button modifier='large'  onclick="logout()">Logout</ons-button>
+
+      </div>
+
+      <script>
+          ons.getScriptPage().onInit = function() {
+            console.log("running noticias tema dia");
+            runUserInfo();
+          }
+        </script>
+  
+    </ons-page>
+
+</template>
+
+  
+<template id="noticias-dia-tema.html">
+
+  <ons-page id="noticias-dia-tema">
+
+    <ons-toolbar>
+      <div class="left">
+        <ons-back-button>Back</ons-back-button>
+    </div>
+      <div class="center">
+        Notícias do dia por tema
+      </div>
+    </ons-toolbar>
+
+      <div style="margin-top: 10%; margin-bottom: 10%">
+
+          <ons-list modifier="inset">
+
+            <ons-list-item id="select_temas" oninput="resultadoNoticiasTemas()">
+                
+            </ons-list-item>
+
+          </ons-list>
+          
+      </div>
+
+      <div id="progress_bar"></div>
+    
+      <ons-list id="noticias-list"></ons-list>
+
+      <div id="sem-noticia"></div>
+
+    <script>
+      ons.getScriptPage().onInit = function() {
+        console.log("running noticias tema dia");
+        runNoticiasTemaDia();
+      }
+    </script>
+    
+  </ons-page>
+
+</template>
+
+
+<template id="imp-nacional.html">
+
+<ons-page id="imp-nacional" >
+    <ons-toolbar>
+      <div class="left">
+        <ons-back-button>Back</ons-back-button>
+    </div>
+      <div class="center">
+        Imprensa Nacional
+      </div>
+    </ons-toolbar>
+    <div id="progress_bar"></div>
+
+    <ons-list id="noticias-list"></ons-list>
+
+    <div id="sem-noticia"></div>
+
+    <script>
+        ons.getScriptPage().onInit = function() {
+          console.log("running imp nacional");
+          runImpNacional();
+        }
+    </script>
+
+</ons-page>
+
+</template>
+
+
+<template id="imp-regional.html">
+
+    <ons-page id="imp-regional" >
+        <ons-toolbar>
+          <div class="left">
+            <ons-back-button>Back</ons-back-button>
+        </div>
+          <div class="center">
+            Imprensa Regional
+          </div>
+        </ons-toolbar>
+        <div id="progress_bar"></div>
+
+        <ons-list id="noticias-list"></ons-list>
+
+        <div id="sem-noticia"></div>
+    
+        <script>
+            ons.getScriptPage().onInit = function() {
+
+              runImpRegional();
+            }
+        </script>
+    
+    </ons-page>
+    
+</template>
+    
+
+<template id="imp-internacional.html">
+
+    <ons-page id="imp-internacional" >
+        <ons-toolbar>
+          <div class="left">
+            <ons-back-button>Back</ons-back-button>
+        </div>
+          <div class="center">
+            Imprensa Internacional
+          </div>
+        </ons-toolbar>
+        <div id="progress_bar"></div>
+        <div id="sem-noticia"></div>
+    
+        <ons-list id="noticias-list"></ons-list>
+
+
+    
+        <script>
+            ons.getScriptPage().onInit = function() {
+           
+              runImpInternacional();
+            }
+        </script>
+    
+    </ons-page>
+    
+</template>
+    
+
+<template id="redes-sociais.html">
+
+  <ons-page id="redes-socias" >
+      <ons-toolbar>
+        <div class="left">
+          <ons-back-button>Back</ons-back-button>
+      </div>
+        <div class="center">
+          Social media
+        </div>
+      </ons-toolbar>
+      <div id="progress_bar"></div>
+  
+      <ons-list id="noticias-list"></ons-list>
+
+      <div id="sem-noticia"></div>
+  
+      <script>
+          ons.getScriptPage().onInit = function() {
+            runRedesSociais();
+          }
+      </script>
+      
+  </ons-page>
+  
+</template>
+  
+
+<template id="internet.html">
+  
+  <ons-page id="internet" >
+  <ons-toolbar>
+    <div class="left">
+      <ons-back-button>Back</ons-back-button>
+  </div>
+        <div class="center">
+          Internet
+        </div>
+      </ons-toolbar>
+      <div id="progress_bar"></div>
+  
+      <ons-list id="noticias-list"></ons-list>
+
+      <div id="sem-noticia"></div>
+  
+      <script>
+          ons.getScriptPage().onInit = function() {
+            runInternet();
+          }
+      </script>
+
+  </ons-page>
+
+</template>
+  
+
+<template id="blogs.html">
+  
+    <ons-page id="blogs" >
+    <ons-toolbar>
+      <div class="left">
+        <ons-back-button>Back</ons-back-button>
+    </div>
+          <div class="center">
+            Blogs
+          </div>
+        </ons-toolbar>
+
+        <div id="progress_bar"></div>
+    
+        <ons-list id="noticias-list"></ons-list>
+  
+        <div id="error"></div>
+    
+        <script>
+            ons.getScriptPage().onInit = function() {
+              runBlogs();
+            }
+        </script>
+  
+    </ons-page>
+  
+  </template>
+    
+
+<template id="televisao.html">
+
+    <ons-page id="televisao" >
+    <ons-toolbar>
+      <div class="left">
+        <ons-back-button>Back</ons-back-button>
+      </div>
+          <div class="center">
+            Televisão
+          </div>
+        </ons-toolbar>
+        <div id="progress_bar"></div>
+    
+        <ons-list id="noticias-list"></ons-list>
+  
+        <div id="error"></div>
+    
+        <script>
+            ons.getScriptPage().onInit = function() {
+              runTelevisao();
+            }
+        </script>
+  
+    </ons-page>
+  
+  </template>
+    
+
+<template id="radio.html">
+
+    <ons-page id="radio" >
+       
+    <ons-toolbar>
+      <div class="left">
+        <ons-back-button>Back</ons-back-button>
+      </div>
+      <div class="center">
+          Rádio
+      </div>
+    </ons-toolbar>
+
+        <div id="progress_bar"></div>
+    
+        <ons-list id="noticias-list"></ons-list>
+  
+        <div id="error"></div>
+    
+        <!-- <script>
+            ons.getScriptPage().onInit = function() {
+              runRadio();
+            }
+        </script> -->
+  
+    </ons-page>
+  </template>
+    
+
+<template id="alert-dialog.html">
+    <ons-alert-dialog id="my-alert-dialog" modifier="rowfooter">
+      <div class="alert-dialog-title">Compartilhar por email</div>
+      <div class="alert-dialog-content">
+        
+        <ons-input type="text" placeholder="e-mail" id="emailShare"></ons-input>
+        <ons-input type="text" placeholder="titulo" id="tituloShare"></ons-input>
+     
+      </div>
+      <div class="alert-dialog-footer">
+        <ons-alert-dialog-button onclick="hideAlertDialog()">Cancelar</ons-alert-dialog-button>
+        <ons-alert-dialog-button onclick="sendEmail()">Enviar</ons-alert-dialog-button>
+      </div>
+    </ons-alert-dialog>
+  
+  </template>
+
+
+<template id="tab1.html">
+    <ons-page id="Tab1">
+
+      <div id="manchetes-images-tab"></div>
+
+      <script src="js/manchetes-tab.js"></script>
+  
+    </ons-page>
+  </template>
+  
+<template id="tab2.html">
+
+    <ons-page id="Tab2">
+        <ons-pull-hook id="pull-hook-noticias-tab">
+            Pull to refresh
+          </ons-pull-hook>
+      
+          <div id="progress_bar"></div>
+      
+          <ons-list>
+      <ons-lazy-repeat id="noticias-list-tab"></ons-lazy-repeat>
+    </ons-list>
+
+    <div id="sem-noticia-tab"></div>
+      
+          <script>
+            ons.getScriptPage().onInit = function() {
+              runNoticiasTab();
+            };
+          </script>
+    </ons-page>
+  </template>
+
+  
+<template id="tab-bar-home.html">
+  <ons-page>
+
+      <ons-toolbar>
+          <div class="left">
+            <ons-toolbar-button onclick="fn.open()">
+              <ons-icon icon="md-menu"></ons-icon>
+            </ons-toolbar-button>
+          </div>
+          <div class="center">
+            Manchetes do dia
+          </div>
+        </ons-toolbar> 
+
+
+      <ons-tabbar swipeable position="auto">
+        <ons-tab page="tab1.html" label="Manchetes" icon="fa-file" active>
+        </ons-tab>
+        <ons-tab page="tab2.html" label="Noticias" icon="fa-list-ul">
+        </ons-tab>
+      </ons-tabbar>
+  </ons-page>
+</template>
+
+<ons-modal direction="up"><div class="progress-bar progress-bar--indeterminate"></div></div></ons-modal>
+
+<div id="manchete-image-zoom"></div>
+
+<!-- <ons-modal direction="up">
+  <div style="text-align: center">
+    <p>
+      <ons-icon icon="md-spinner" size="28px" spin></ons-icon> Loading...
+    </p>
+  </div>
+</ons-modal> -->
+  
+  <script src="js/index.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/noticia-texto.js"></script>
+  <script src="js/noticias.js"></script>
+  <script src="js/noticias-tab.js"></script>
+  <script src="js/imp-nacional.js"></script>
+  <script src="js/imp-regional.js"></script>
+  <script src="js/imp-internacional.js"></script>
+  <script src="js/radio.js"></script>
+  <script src="js/televisao.js"></script>
+  <script src="js/internet.js"></script>
+  <script src="js/blogs.js"></script>
+  <script src="js/social.js"></script>
+  <script src="js/pesquisa.js"></script> 
+  <script src="js/noticias-dia-tema.js"></script>
+  <script src="js/login.js"></script>
+  <script src="js/user-info.js"></script>
+
+</body>
+
+</html>
