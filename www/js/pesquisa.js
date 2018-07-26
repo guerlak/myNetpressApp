@@ -123,7 +123,6 @@ var runPesquisa = function (){
     }
 
 
-
 var runSearch = function(){
 
         var dataInicio = document.getElementById('data-inicio').value;
@@ -142,7 +141,7 @@ var runSearch = function(){
               });
         } else {
 
-        var operador;
+    var operador;
 
         if(or.checked){
             operador = "or";
@@ -152,8 +151,9 @@ var runSearch = function(){
             operador = "and";
         }
 
-    var url = 'https://services.manchete.pt:8002/Clientes.asmx/getSearch?user='+login+'&password='+ pass +'&callback=&datainicio='+dataInicio+'&datafim='+dataFim+'&tipo='+tipo+'&tema='+tema+'&publicacao='+publicacao+'&palavra1='+palavra1+'&palavra2='+palavra2+'&operador='+operador;
+    var url = 'https://services.manchete.pt:8002/Clientes.asmx/getSearch?user='+login+'&passssord='+ pass +'&callback=&datainicio='+dataInicio+'&datafim='+dataFim+'&tipo='+tipo+'&tema='+tema+'&publicacao='+publicacao+'&palavra1='+palavra1+'&palavra2='+palavra2+'&operador='+operador;
 
+    
     $.ajax({
         url: url,
         dataType: "text",
@@ -162,7 +162,9 @@ var runSearch = function(){
             ajax.parseJSONP(result);
         },
         error: function (jqXHR, textStatus, errorThrown) {
+
             alert('Erro ao buscar os dados no servidor por esta URL - ' + url + " error: " + jqXHR.status + " " + jqXHR.responseText + " " + " " + errorThrown);
+
         }
     });
     

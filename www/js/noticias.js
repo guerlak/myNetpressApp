@@ -49,8 +49,11 @@ var runNoticias = function(){
                 modal.hide();
             },
             error: function (request, error) {
-                alert('Erro ao buscar dados no servidor, tente de novo.');
+                alert('Erro ao buscar dados no servidor, tente mais tarde.');
                 console.log(error);
+                
+                modal.hide();
+
             }
         });
     }
