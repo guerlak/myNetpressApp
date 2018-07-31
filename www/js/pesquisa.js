@@ -160,9 +160,10 @@ var runSearch = function(){
         async: true,
         success: function (result) {
             ajax.parseJSONP(result);
+            modal.hide();
         },
         error: function (jqXHR, textStatus, errorThrown) {
-
+            modal.hide();
             alert('Erro ao buscar os dados no servidor por esta URL - ' + url + " error: " + jqXHR.status + " " + jqXHR.responseText + " " + " " + errorThrown);
 
         }

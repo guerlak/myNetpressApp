@@ -17,16 +17,21 @@ if(!checkAuth()){
 
         request.open('GET', requestURL);
         request.responseType = 'text';
-        request.send();
+        
         request.onload = function () {
-
             var mancheteText = request.response;
                 mancheteText = mancheteText.substring(1, mancheteText.length - 1);
             var manchetes = JSON.parse(mancheteText);
-            
+            modal.hide();
             populate(manchetes);
             
         }
+
+        if(request.status === 500){
+            images.innerHTML = "<p>Error</p>"
+        }
+
+        request.send();
             
         function populate(jsonObj) {
 
@@ -39,7 +44,7 @@ if(!checkAuth()){
                     html += '<div><img class="mancheteImgs" alt="manchete do dia" width="100%" onClick="mancheteImgOpen()" src=' + jsonObj[i].link + ' /></div>';
                 }
             }
-            modal.hide();
+            
             images.innerHTML = html;
         }
 

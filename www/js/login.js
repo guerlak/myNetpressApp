@@ -11,6 +11,8 @@ var loginRun = function(){
 
     }  else  {
 
+            const registrationId = storage.getItem('registrationId');
+
             var url = 'https://services.manchete.pt:8002/Clientes.asmx/AuthenticateLogin?user=' + inputEmail + '&password=' + inputPass + '&callback=&deviceType=' + cordova.platformId + '&deviceToken='+registrationId;
             
             console.log(url);
@@ -53,8 +55,6 @@ var loginRun = function(){
                     })
 
                     } else {
-
-                        var storage = window.localStorage;
 
                         // ons.notification.toast(cordova.platformId, {
                         //     timeout:1000

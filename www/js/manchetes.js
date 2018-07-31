@@ -15,6 +15,10 @@ request.send();
 
 request.onload = function () {
 
+    if(request.status === 500){
+        images.innerHTML = "<p>Error</p>"
+    }
+
     var mancheteText = request.response;
         mancheteText = mancheteText.substring(1, mancheteText.length - 1);
     var manchetes = JSON.parse(mancheteText);
@@ -22,6 +26,8 @@ request.onload = function () {
     populate(manchetes);
        
 }
+
+
     
 function populate(jsonObj) {
 

@@ -1,8 +1,8 @@
-var runNoticiasTexto = function(){
+var runNoticiasTextoTab = function(){
     
-    var link = "'"+noticias[noticiaIndex].link+"'";
-    console.log(link);
-    id = noticias[noticiaIndex].id;
+    var linkTab = "'"+noticiasTab[noticiaIndexTab].link+"'";
+    console.log(linkTab);
+    id = noticiasTab[noticiaIndexTab].id;
     
     var url = 'https://services.manchete.pt:8002/Clientes.asmx/getTextbyIdNew?user=' + login + '&password=' + pass + '&callback=&id=' + id;
 
@@ -29,7 +29,7 @@ var runNoticiasTexto = function(){
             var texto = document.getElementById('texto-noticia');
             
                 var sys = "'_system'"
-                var ext = link.split(".");
+                var ext = linkTab.split(".");
                 var extention = (ext[ext.length - 1]);
                 var icon = "";
                 
@@ -37,19 +37,19 @@ var runNoticiasTexto = function(){
                 if(ext.length > 1){
                     switch (extention){
                         case "pdf'":
-                        icon = '<button class="fab fab--mini noticiasTexto-btn" onclick="window.open(' + link + ',' + sys + ');"><i class="zmdi zmdi-collection-pdf"></i></button>';
+                        icon = '<button class="fab fab--mini noticiasTexto-btn" onclick="window.open(' + linkTab + ',' + sys + ');"><i class="zmdi zmdi-collection-pdf"></i></button>';
                         break;
                         case "mp4'":
-                        icon = '<button class="fab fab--mini noticiasTexto-btn" onclick="window.open(' + link + ',' + sys + ');"><i class="zmdi zmdi-play"></i></button>';
+                        icon = '<button class="fab fab--mini noticiasTexto-btn" onclick="window.open(' + linkTab + ',' + sys + ');"><i class="zmdi zmdi-play"></i></button>';
                         break;
                         default: 
-                        icon = '<button class="fab fab--mini noticiasTexto-btn" onclick="window.open(' + link + ',' + sys + ');"><i class="zmdi zmdi-open-in-browser"></i></button>';
+                        icon = '<button class="fab fab--mini noticiasTexto-btn" onclick="window.open(' + linkTab + ',' + sys + ');"><i class="zmdi zmdi-open-in-browser"></i></button>';
                     }
                 }
 
                 var browseBtns = document.querySelector('#browse-btns');
 
-                shareLink =  link.substring(9);
+                shareLink =  linkTab.substring(9);
 
                 browseBtns.innerHTML = '<div style="text-align: right; padding: 10px;">'+icon;
                 // '<a onclick="guardarFavoritos()" id="guardar-favoritos"><button class="fab fab--mini" disabled><i class="zmdi zmdi-favorite"></i></button></div>';

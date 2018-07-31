@@ -34,8 +34,6 @@ $(document).on('pageshow', '#favoritos', function () {
 });
 
 
-
-
 var ajax = {
 
     parseJSONP: function (result) {
