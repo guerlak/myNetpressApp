@@ -29,29 +29,17 @@
         <img width='100px' src="img/manchete.png">
       </ons-list-item>
 
-      <!-- <ons-list-item onclick="fn.load('home.html')" tappable>
-      <div class="left">
-          <ons-icon icon="md-home" class="list-item__icon"></ons-icon>
-        </div>
-        <div class="center">
-            Home
-        </div>
-      </ons-list-item> -->
-
-      <ons-list-item style="background-color: #e1e9fa" onclick="fn.load('user-info.html');" tappable>
-          <div class="left">
-              <ons-icon icon="md-settings" class="list-item__icon"></ons-icon>
-            </div>
+      <ons-list-item style="color: #4b76c1" onclick="fn.load('user-info.html');" tappable>
+        
             <div class="center">
-                Utilizador
+                <div id="nome-utilizador"></div>
             </div>    
+            <div class="right">
+                <ons-icon icon="md-settings" class="list-item__icon"></ons-icon>
+              </div>
       </ons-list-item>
 
       <ons-list-header style="background-color: #4b76c1; color: #fff">NOTÍCIAS</ons-list-header>
-
-      <!-- <ons-list-item onclick="fn.load('manchetes.html')" ripple>
-        Manchetes
-      </ons-list-item> -->
 
       <ons-list-item onclick="fn.load('noticias.html');" tappable > 
         Notícias do dia
@@ -114,7 +102,6 @@
   </ons-splitter-content> 
 
 </ons-splitter>
-
 
 
 <template id="noticia-texto.html">
@@ -294,10 +281,10 @@
 
             <ons-list modifier='inset' style="margin-top: 5%">
               <ons-list-header>
-            
+                  <strong>Palavra 1</strong>
               </ons-list-header>
               <ons-list-item>
-                <ons-input type="text" id="palavra1" placeholder='Palavra 1'></ons-input>
+                <ons-input type="text" id="palavra1" placeholder='palavra 1'></ons-input>
               </ons-list-item>
 
               <ons-list-header>
@@ -324,10 +311,10 @@
                 
 
               <ons-list-header>
-                    
+                  <strong>Palavra 2</strong>
                 </ons-list-header>
                 <ons-list-item>
-                  <ons-input type="text" id="palavra2" placeholder='Palavra 2'></ons-input>
+                  <ons-input type="text" id="palavra2" placeholder='palavra 2'></ons-input>
               </ons-list-item>
 
             </ons-list>
@@ -354,6 +341,7 @@
 
         </div>
 
+        <ons-list id="sem-noticia"></ons-list>
         <ons-list id="noticias-list"></ons-list>
 
         <script>
@@ -763,25 +751,6 @@
     </template>
       
 
-  <template id="alert-dialog.html">
-      <ons-alert-dialog id="my-alert-dialog" modifier="rowfooter">
-        <div class="alert-dialog-title">Compartilhar por email</div>
-        <div class="alert-dialog-content">
-          
-          <ons-input type="text" placeholder="e-mail" id="emailShare"></ons-input>
-          <ons-input type="text" placeholder="titulo" id="tituloShare"></ons-input>
-      
-        </div>
-        <div class="alert-dialog-footer">
-          <ons-alert-dialog-button onclick="hideAlertDialog()">Cancelar</ons-alert-dialog-button>
-          <ons-alert-dialog-button onclick="sendEmail()">Enviar</ons-alert-dialog-button>
-        </div>
-      </ons-alert-dialog>
-    
-    </template>
-
-
-
   <template id="tab-bar-home.html">
     <ons-page>
 
@@ -806,6 +775,7 @@
     </ons-page>
   </template>
 
+
   <template id="tab1.html">
     <ons-page id="Tab1">
 
@@ -816,6 +786,7 @@
     </ons-page>
   </template>
   
+
 <template id="tab2.html">
 
     <ons-page id="Tab2">
@@ -845,7 +816,7 @@
     <ons-toolbar>
       <div class="left">
         <ons-toolbar-button onclick="myNavigator.pushPage('login.html');menu.close();">
-          <ons-icon icon="md-account-box"></ons-icon>
+          <strong>Login</strong>
         </ons-toolbar-button>
       </div>
       <div class="center">
@@ -863,16 +834,34 @@
 </template>
 
 
+<template id="alert-dialog.html">
+
+  <ons-alert-dialog id="my-alert-dialog" modifier="rowfooter">
+    <div class="alert-dialog-title">Compartilhar por email</div>
+    <div class="alert-dialog-content">
+      
+      <ons-input type="text" placeholder="nome" id="nameShare"></ons-input>
+      <ons-input type="text" placeholder="e-mail" id="emailShare"></ons-input>
+      <ons-input type="text" placeholder="mensagem" id="messageShare"></ons-input>
+  
+    </div>
+    <div class="alert-dialog-footer">
+      <ons-alert-dialog-button onclick="hideAlertDialog()">Cancelar</ons-alert-dialog-button>
+      <ons-alert-dialog-button onclick="sendEmailBtn()">Enviar</ons-alert-dialog-button>
+    </div>
+  </ons-alert-dialog>
+
+</template>
 
 
-  <ons-modal direction="up"><div class="progress-bar progress-bar--indeterminate"></div></div></ons-modal>
+<ons-modal direction="up"><div class="progress-bar progress-bar--indeterminate"></div></ons-modal>
 
-  <div id="manchete-image-zoom"></div>
+<div id="manchete-image-zoom"></div>
 
   <!-- <ons-modal direction="up">
     <div style="text-align: center">
       <p>
-        <ons-icon icon="md-spinner" size="28px" spin></ons-icon> Loading...
+        <ons-icon icon="md-spinner" size="28px" spin></ons-icon> A carregar...
       </p>
     </div>
   </ons-modal> -->

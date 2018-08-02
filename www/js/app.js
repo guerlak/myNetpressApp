@@ -144,7 +144,7 @@ const ajaxNoticias = {
         }
         html += "<ons-list-item modifier='chevron' tappable class='list-item-noticias'>" +
         '<div class="left">'+iconList+'</i></div>'+
-        "<div class='center' id=" + index + " onClick=goToNewsTextTab(this)><span class='ons-list__title'>" + item.titulo + "</span><span class='list-item__subtitle'>" +
+        "<div class='center' id=" + index + " onClick=goToNewsText(this)><span class='ons-list__title'>" + item.titulo + "</span><span class='list-item__subtitle'>" +
         item.publicacao + '</span></div><div class="right" id=' + index + ' onClick=goToNewsTextTab(this)></div></ons-list-item>';
     });
 
@@ -202,16 +202,17 @@ const sendEmail = function (newId, tipo){
   
     var url = "https://services.manchete.pt:8002/Clientes.asmx/sendnewByEmail?newId="+newId+"&tipo="+tipo+"&emailSender="+login+"&emailDestination="+emailDestination+"&nameDestination="+name+"&message="+message+"&user="+login+"&password="+pass+"&callback=";
 
-    console.log(url);
+    var urlEncoded = encodeURI(url);
+    console.log(urlEncoded);
     var request = new XMLHttpRequest();
-    request.open('GET', url);
+    request.open('GET', urlEncoded);
     request.responseType = 'text';
     request.send();
 
     request.onload = function () {
 
-        document.getElementById('email-dialog').hide();
-        console.log("Email enviado");
+        document.getElementById('my-alert-dialog').hide();
+        console.log("Email enviado.");
 
     }
 
@@ -239,8 +240,6 @@ const loadUser = function(){
 
             var data = JSON.parse(userText);
 
-            console.log(data)
-
             document.querySelector('#nome-utilizador').innerHTML = "Olá, <b>"+data.nomecliente +"</b>";
             
             var logo = document.createElement('img');
@@ -250,17 +249,9 @@ const loadUser = function(){
             user.logo = data.logo;
 
         }
-
-
-
 }
 
 loadUser();
-
-
-
-
-
 
 
 

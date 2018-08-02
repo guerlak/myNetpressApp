@@ -13,7 +13,7 @@ var loginRun = function(){
             const registrationId = storage.getItem('registrationId');
             
             var url = 'https://services.manchete.pt:8002/Clientes.asmx/AuthenticateLogin?user=' + inputEmail + '&password=' + inputPass + '&callback=&deviceType=' + cordova.platformId + '&deviceToken='+registrationId;
-            
+           
             console.log(url);
             console.log('token is: ' + registrationId)
 
@@ -64,6 +64,7 @@ var loginRun = function(){
                         ons.notification.toast('Bem vindo a Manchete', {
                             timeout: 3000
                         });
+                        loadUser();
                         myNavigator.resetToPage("tab-bar-home.html");
                     }               
                 }

@@ -146,15 +146,15 @@ var runSearch = function(){
             operador = "and";
         }
 
-    var url = 'https://services.manchete.pt:8002/Clientes.asmx/getSearch?user='+login+'&passssord='+ pass +'&callback=&datainicio='+dataInicio+'&datafim='+dataFim+'&tipo='+tipo+'&tema='+tema+'&publicacao='+publicacao+'&palavra1='+palavra1+'&palavra2='+palavra2+'&operador='+operador;
-
+    var url = 'https://services.manchete.pt:8002/Clientes.asmx/getSearch?user='+login+'&password='+ pass +'&callback=&datainicio='+dataInicio+'&datafim='+dataFim+'&tipo='+tipo+'&tema='+tema+'&publicacao='+publicacao+'&palavra1='+palavra1+'&palavra2='+palavra2+'&operador='+operador;
+    var urlEncoded = encodeURI(url);
     
     $.ajax({
-        url: url,
+        url: urlEncoded,
         dataType: "text",
         async: true,
         success: function (result) {
-            ajax.parseJSONP(result);
+            ajaxPesquisa.parseJSONP(result);
             modal.hide();
         },
         error: function (jqXHR, textStatus, errorThrown) {
@@ -165,24 +165,24 @@ var runSearch = function(){
     });
     
 
-    var ajax = {
+    var ajaxPesquisa = {
     
         parseJSONP: function (result) {
 
             result = result.substring(1, result.length - 1);
 
-            var parsed = JSON.parse(result);
+            var noticiasParsed = JSON.parse(result);
 
-            noticias = parsed;
+            noticias = noticiasParsed;
 
             if (noticias < 1) {
                 ons.notification.alert('Não há noticias com esses parametros de pesquisa');
-            }
-    
+            } else {
+
             var html = '';
         
                 $.each(noticias, function (index, item) {
-                    html += "<ons-list-item modifier='chevron' tappable id=" + index + " class='list-item' onclick="+'fn.load("noticia-texto.html")'+"><div class='center'><span class='ons-list__title'>" + item.titulo + "</span><span class='list-item__subtitle'>" + item.publicacao + '</span></div><div class="right">' + item.hora_insercao + '</div></ons-list-item>';
+                    html += "<ons-list-item modifier='chevron' tappable id=" + index + " class='list-item' onclick="+'goToNewsText(this)'+"><div class='center'><span class='ons-list__title'>" + item.titulo + "</span><span class='list-item__subtitle'>" + item.publicacao + '</span></div><div class="right">' + item.hora_insercao + '</div></ons-list-item>';
                 
                     addEventListener('click', function(e){
                         noticiaIndex = e.target.parentNode.parentNode.id;
@@ -190,20 +190,10 @@ var runSearch = function(){
                 
                 });
             
-            var noticiasList = document.getElementById('noticias-list');
+                var noticiasList = document.getElementById('noticias-list');
 
-            // document.getElementById('searchDiv').style.display = 'none';
-
-            noticiasList.innerHTML = html;
-    
-            // els = document.querySelectorAll(".list-item");
-    
-            // els.forEach(function (item) {
-            //     item.addEventListener("click", function (e) {
-            //         console.log("Parent node id:" + e.target.parentNode.id);
-            //         noticiaID = e.target.parentNode.parentNode.id;
-            //     });
-            // });
+                noticiasList.innerHTML = html;
+            }
 
         }
     }
