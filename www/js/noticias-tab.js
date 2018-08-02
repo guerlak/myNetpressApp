@@ -1,17 +1,22 @@
-function goToNewsTabText(el){
+
+function goToNewsTextTab(el){
     noticiaIndexTab = el.id;
-    console.log(noticiaIndexTab);
-    fn.load("noticia-texto-tab.html");
+    if(noticiaIndex !== "noticias-list" || noticiaIndex !== ""){
+        fn.load("noticia-texto-tab.html"); 
+    }
 }
 
 var runNoticiasTab = function(){
 
-    modal.show();
 
-    if(!checkAuth()){
-        console.log("CheckAuth: Not allowed");
-        return;
-     };
+    if(!isAuthenticated()){
+
+        myNavigator.resetToPage("manchetes.html");
+        console.log("passar not auth");
+
+    }else{ 
+
+    modal.show();
 
     var url = 'https://services.manchete.pt:8002/Clientes.asmx/getNewsPress?user=' + login + '&password=' + pass + '&callback=""&datainicio=' + dataInicio + '&datafim=' + dataFim + '&referencia3=';
        
@@ -55,16 +60,18 @@ var runNoticiasTab = function(){
             
                 $.each(result, function (index, item) {
                     if(item.link.indexOf('pdf') > -1){
-                        iconList = '<i class="icon-noticias-list zmdi zmdi-collection-pdf"></i>'
+                        iconList = '<a href="'+item.link+'" target="_blank"><i class="icon-noticias-list zmdi zmdi-collection-pdf"></i></a>'
+                    }else if(item.link.indexOf('mp4') > -1){
+                        iconList = '<a href="'+item.link+'" target="_blank"><i class="icon-noticias-list zmdi zmdi-tv-play"></i></a>';
                     }else if(item.link.indexOf('http') > -1){
-                        iconList = '<i class="icon-noticias-list zmdi zmdi-open-in-browser"></i>';
+                        iconList = '<a href="'+item.link+'" target="_blank"><i class="icon-noticias-list zmdi zmdi-globe"></i></a>';
                     }else{
                         iconList = '<i class="icon-noticias-list disabled zmdi zmdi-format-subject"></i>'
                     }
-                    html += "<ons-list-item modifier='chevron' tappable id=" + index + " class='list-item-noticias' onClick=goToNewsTabText(this)>" +
+                    html += "<ons-list-item modifier='chevron' tappable class='list-item-noticias'>" +
                     '<div class="left">'+iconList+'</i></div>'+
-                    "<div class='center'><span class='ons-list__title'>" + item.titulo + "</span><span class='list-item__subtitle'>" +
-                    item.publicacao + '</span></div><div class="right"></div></ons-list-item>';
+                    "<div class='center' id=" + index + " onClick=goToNewsTextTab(this)><span class='ons-list__title'>" + item.titulo + "</span><span class='list-item__subtitle'>" +
+                    item.publicacao + '</span></div><div class="right" id=' + index + ' onClick=goToNewsTextTab(this)></div></ons-list-item>';
                 });
                     noticiasListTab.innerHTML = html;
             }
@@ -97,4 +104,5 @@ var runNoticiasTab = function(){
     }
 
     ajaxNoticiasLoad();
+}
 }

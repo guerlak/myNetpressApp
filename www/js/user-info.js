@@ -1,13 +1,7 @@
 
 var runUserInfo = function(){
 
-    if(!checkAuth()){
-        myNavigator.pushPage('login.html');
-    } ;
-
-    modal.show();
-
-    var requestURL = 'https://services.manchete.pt:8002/Clientes.asmx/AuthenticateLogin?user=' + login + '&password=' + pass + '&callback=""&deviceType=""&deviceToken=""';
+    var requestURL = 'https://services.manchete.pt:8002/Clientes.asmx/AuthenticateLogin?user=' + login + '&password=' + pass + '&callback=&deviceType=&deviceToken=';
     
     var request = new XMLHttpRequest();
 
@@ -18,7 +12,8 @@ var runUserInfo = function(){
         request.onload = function () {
 
             var userText = request.response;
-            userText = userText.substring(3, userText.length - 1);
+            console.log(userText)
+            userText = userText.substring(1, userText.length - 1);
 
             var user = JSON.parse(userText);
             

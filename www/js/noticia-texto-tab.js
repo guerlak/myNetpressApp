@@ -1,8 +1,11 @@
+var id, tipo;
+
 var runNoticiasTextoTab = function(){
     
     var linkTab = "'"+noticiasTab[noticiaIndexTab].link+"'";
     console.log(linkTab);
     id = noticiasTab[noticiaIndexTab].id;
+    tipo = noticiasTab[noticiaIndexTab].tipo;
     
     var url = 'https://services.manchete.pt:8002/Clientes.asmx/getTextbyIdNew?user=' + login + '&password=' + pass + '&callback=&id=' + id;
 
@@ -33,7 +36,6 @@ var runNoticiasTextoTab = function(){
                 var extention = (ext[ext.length - 1]);
                 var icon = "";
                 
-
                 if(ext.length > 1){
                     switch (extention){
                         case "pdf'":
@@ -43,7 +45,7 @@ var runNoticiasTextoTab = function(){
                         icon = '<button class="fab fab--mini noticiasTexto-btn" onclick="window.open(' + linkTab + ',' + sys + ');"><i class="zmdi zmdi-play"></i></button>';
                         break;
                         default: 
-                        icon = '<button class="fab fab--mini noticiasTexto-btn" onclick="window.open(' + linkTab + ',' + sys + ');"><i class="zmdi zmdi-open-in-browser"></i></button>';
+                        icon = '<button class="fab fab--mini noticiasTexto-btn" onclick="window.open(' + linkTab + ',' + sys + ');"><i class="zmdi zmdi-globe"></i></button>';
                     }
                 }
 
@@ -66,7 +68,7 @@ var runNoticiasTextoTab = function(){
 
 function shareEmail(){
 
-    var dialog = document.getElementById('my-alert-dialog');
+    var dialog = document.getElementById('email-dialog');
 
     if (dialog) {
         dialog.show();
@@ -76,6 +78,11 @@ function shareEmail(){
             dialog.show();
         });
     }
+}
+
+const sendEmailBtn = function (){
+    sendEmail(id, tipo)
+
 }
 
 function shareFacebook(){
@@ -95,9 +102,4 @@ var hideAlertDialog = function() {
 }
 
 
-function sendEmail(){
-    document.getElementById('my-alert-dialog').hide();
-    console.log("enviando email");
-    var email = document.getElementById("emailShare").value;
-    window.location.href = "mailto:"+email+"\"";
-}
+

@@ -4,11 +4,6 @@ var runPesquisa = function (){
 
     modal.show();
 
-    if(!checkAuth()){
-        console.log("checkAuth false")
-        return;
-    };
-
         var urlMeios = 'https://services.manchete.pt:8002/Clientes.asmx/getClippingbyUser?user=' + login + '&password=' + pass + '&callback=';
 
         $.ajax({

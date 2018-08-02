@@ -27,11 +27,6 @@ var runNoticias = function(){
         setTimeout(done, 2000);
     };
 
-    if(!checkAuth()){
-        console.log("CheckAuth: Not allowed");
-        return;
-     };
-
     var url = 'https://services.manchete.pt:8002/Clientes.asmx/getNewsPress?user=' + login + '&password=' + pass + '&callback=""&datainicio=' + dataInicio + '&datafim=' + dataFim + '&referencia3=';
 
     function ajaxLoad(){

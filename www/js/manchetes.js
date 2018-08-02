@@ -9,26 +9,31 @@ var images = document.querySelector('#manchetes-images');
 var mancheteImgZoom = document.querySelector('#manchete-image-zoom');
 var request = new XMLHttpRequest();
 
-request.open('GET', requestURL);
-request.responseType = 'text';
-request.send();
+
+    request.open('GET', requestURL);
+    request.responseType = 'text';
+    request.send();
+
 
 request.onload = function () {
 
-    if(request.status === 500){
-        images.innerHTML = "<p>Error</p>"
-    }
+    if(request.status === 500){  console.log(request.status)
+        images.innerHTML = "<p id='no-internet'>Parece que não há conexão a internet, verifique sua rede...</p>"
+        modal.hide();
 
-    var mancheteText = request.response;
-        mancheteText = mancheteText.substring(1, mancheteText.length - 1);
-    var manchetes = JSON.parse(mancheteText);
-    
-    populate(manchetes);
-       
+    }else{
+
+        var mancheteText = request.response;
+            mancheteText = mancheteText.substring(1, mancheteText.length - 1);
+        var manchetes = JSON.parse(mancheteText);
+
+        console.log(request.status)
+        populate(manchetes);
+
+    }
 }
 
 
-    
 function populate(jsonObj) {
 
     var html = '';

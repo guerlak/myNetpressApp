@@ -1,8 +1,7 @@
 var runNoticiasTexto = function(){
     
     var link = "'"+noticias[noticiaIndex].link+"'";
-    console.log(link);
-    id = noticias[noticiaIndex].id;
+    var id = noticias[noticiaIndex].id;
     
     var url = 'https://services.manchete.pt:8002/Clientes.asmx/getTextbyIdNew?user=' + login + '&password=' + pass + '&callback=&id=' + id;
 
@@ -19,7 +18,6 @@ var runNoticiasTexto = function(){
                 modal.hide();
             }
         });
-        
 
     var ajaxNoticiaTexto = {
 
@@ -32,7 +30,6 @@ var runNoticiasTexto = function(){
                 var ext = link.split(".");
                 var extention = (ext[ext.length - 1]);
                 var icon = "";
-                
 
                 if(ext.length > 1){
                     switch (extention){
@@ -43,7 +40,7 @@ var runNoticiasTexto = function(){
                         icon = '<button class="fab fab--mini noticiasTexto-btn" onclick="window.open(' + link + ',' + sys + ');"><i class="zmdi zmdi-play"></i></button>';
                         break;
                         default: 
-                        icon = '<button class="fab fab--mini noticiasTexto-btn" onclick="window.open(' + link + ',' + sys + ');"><i class="zmdi zmdi-open-in-browser"></i></button>';
+                        icon = '<button class="fab fab--mini noticiasTexto-btn" onclick="window.open(' + link + ',' + sys + ');"><i class="zmdi zmdi-globe"></i></button>';
                     }
                 }
 
@@ -64,40 +61,33 @@ var runNoticiasTexto = function(){
 }
     
 
-function shareEmail(){
+// function shareEmail(){
 
-    var dialog = document.getElementById('my-alert-dialog');
+//     var dialog = document.getElementById('em-dialog');
 
-    if (dialog) {
-        dialog.show();
-    } else {
-        ons.createElement('alert-dialog.html', { append: true })
-        .then(function(dialog) {
-            dialog.show();
-        });
-    }
-}
+//     if (dialog) {
+//         dialog.show();
+//     } else {
+//         ons.createElement('alert-dialog.html', { append: true })
+//         .then(function(dialog) {
+//             dialog.show();
+//         });
+//     }
+// }
 
 function shareFacebook(){
     console.log("Sharing Facebook -- " + shareLink);
     window.open("https://www.facebook.com/sharer/sharer.php?u=http%3A//"+shareLink+"");
 }
 
-
 function shareTwitter(){
-    console.log("sharing twitter");
+    console.log("Sharing twitter");
     window.open("https://twitter.com/home?status=This%20is%20Awesome%20page!!%20http%3A//"+shareLink+"");
 }
-
 
 var hideAlertDialog = function() {
     document.getElementById('my-alert-dialog').hide();
 }
 
 
-function sendEmail(){
-    document.getElementById('my-alert-dialog').hide();
-    console.log("enviando email");
-    var email = document.getElementById("emailShare").value;
-    window.location.href = "mailto:"+email+"\"";
-}
+

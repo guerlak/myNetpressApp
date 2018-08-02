@@ -4,7 +4,6 @@ var loginRun = function(){
     var inputEmail = document.getElementById("email").value;
     var inputPass = document.getElementById("password").value;
 
-
     if(inputEmail == "" || inputPass == "") {
         alert("Preencha os campos de login para aceder aplicacao");
         return;
@@ -12,7 +11,7 @@ var loginRun = function(){
     }  else  {
 
             const registrationId = storage.getItem('registrationId');
-
+            
             var url = 'https://services.manchete.pt:8002/Clientes.asmx/AuthenticateLogin?user=' + inputEmail + '&password=' + inputPass + '&callback=&deviceType=' + cordova.platformId + '&deviceToken='+registrationId;
             
             console.log(url);
@@ -56,18 +55,12 @@ var loginRun = function(){
 
                     } else {
 
-                        // ons.notification.toast(cordova.platformId, {
-                        //     timeout:1000
-                        // });
-                    
                         storage.setItem("userLogin", inputEmail);
                         storage.setItem("userPass", inputPass);
 
-                        // if (storage.getItem('lista-favoritos') == null) {
-                        //     var listaFavoritos = [];
-                        //     storage.setItem('lista-favoritos', listaFavoritos);
-                        // }
-                        
+                        login = inputEmail;
+                        pass = inputPass;
+
                         ons.notification.toast('Bem vindo a Manchete', {
                             timeout: 3000
                         });

@@ -1,10 +1,5 @@
 var runBlogs = function() {
 
-    if(!checkAuth()){
-        console.log("CheckAuth: Not allowed")
-       return;
-    };
-
   page = "blogs.html"
 
   modal.show();

@@ -1,7 +1,8 @@
 
-if(!checkAuth()){
+if(!isAuthenticated()){
 
     myNavigator.resetToPage("manchetes.html");
+    console.log("passar not auth")
 
 } else {
 
@@ -18,19 +19,30 @@ if(!checkAuth()){
         request.open('GET', requestURL);
         request.responseType = 'text';
         
-        request.onload = function () {
+        request.onload = function () {  
+
+            if(request.status === 500){  console.log(request.status)
+                images.innerHTML = "<p id='no-internet'>Parece que não há conexão a internet, verifique sua rede...</p>"
+                modal.hide();
+        
+            }else{
+        
+                var mancheteText = request.response;
+                    mancheteText = mancheteText.substring(1, mancheteText.length - 1);
+                var manchetes = JSON.parse(mancheteText);
+        
+                console.log(request.status)
+                populate(manchetes);
+
             var mancheteText = request.response;
                 mancheteText = mancheteText.substring(1, mancheteText.length - 1);
             var manchetes = JSON.parse(mancheteText);
             modal.hide();
             populate(manchetes);
             
-        }
+            }
 
-        if(request.status === 500){
-            images.innerHTML = "<p>Error</p>"
         }
-
         request.send();
             
         function populate(jsonObj) {

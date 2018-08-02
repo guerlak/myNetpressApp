@@ -3,10 +3,6 @@ var runInternet = function() {
 
     modal.show();
 
-    if(!checkAuth()){
-        console.log("checkAuth false")
-        return;
-    };
 
 var url = 'https://services.manchete.pt:8002/Clientes.asmx/getNewsPress?user=' + login + '&password=' + pass + '&callback=""&datainicio=' + dataInicio + '&datafim=' + dataFim + '&referencia3=i';
 
