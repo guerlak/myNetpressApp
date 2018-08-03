@@ -1,6 +1,6 @@
 var runNoticiasTexto = function(){
     
-    var link = "'"+noticias[noticiaIndex].link+"'";
+    var link = "'" + noticias[noticiaIndex].link + "'";
     var id = noticias[noticiaIndex].id;
     
     var url = 'https://services.manchete.pt:8002/Clientes.asmx/getTextbyIdNew?user=' + login + '&password=' + pass + '&callback=&id=' + id;
@@ -38,6 +38,9 @@ var runNoticiasTexto = function(){
                         break;
                         case "mp4'":
                         icon = '<button class="fab fab--mini noticiasTexto-btn" onclick="window.open(' + link + ',' + sys + ');"><i class="zmdi zmdi-play"></i></button>';
+                        break;
+                        case "mp3'":
+                        icon = '<button class="fab fab--mini noticiasTexto-btn" onclick="window.open(' + link + ',' + sys + ');"><i class="zmdi zmdi-volume-up"></i></button>';
                         break;
                         default: 
                         icon = '<button class="fab fab--mini noticiasTexto-btn" onclick="window.open(' + link + ',' + sys + ');"><i class="zmdi zmdi-globe"></i></button>';

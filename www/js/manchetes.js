@@ -12,26 +12,26 @@ var request = new XMLHttpRequest();
 
     request.open('GET', requestURL);
     request.responseType = 'text';
-    request.send();
+ 
+    request.onload = function () {
 
+        if(request.status === 500){  
+            console.log(request.status)
+            images.innerHTML = "<p id='no-internet'>Parece que não há conexão a internet, verifique sua rede...</p>"
+            modal.hide();
 
-request.onload = function () {
+            }else{
 
-    if(request.status === 500){  console.log(request.status)
-        images.innerHTML = "<p id='no-internet'>Parece que não há conexão a internet, verifique sua rede...</p>"
-        modal.hide();
+            var mancheteText = request.response;
+                mancheteText = mancheteText.substring(1, mancheteText.length - 1);
+            var manchetes = JSON.parse(mancheteText);
 
-    }else{
+            populate(manchetes);
 
-        var mancheteText = request.response;
-            mancheteText = mancheteText.substring(1, mancheteText.length - 1);
-        var manchetes = JSON.parse(mancheteText);
-
-        console.log(request.status)
-        populate(manchetes);
-
+        }
     }
-}
+
+    request.send();
 
 
 function populate(jsonObj) {
@@ -72,8 +72,6 @@ function populate(jsonObj) {
 var mancheteImgOpen = function(){
     const dialogHTML = "<ons-dialog id='zoom-manchete-img' cancelable><div style='text-align: center; padding: 5px;'><img width='100%' src='" + event.target.src + "' />"+
                     "<p><ons-button onclick='hideDialog(\"zoom-manchete-img\")'>fechar</ons-button></p>"
-
-    console.log(event.target.src);
     mancheteImgZoom.innerHTML = dialogHTML;
     showTemplateDialog();
 }

@@ -8,13 +8,11 @@ var storage = window.localStorage;
     pass = storage.getItem('userPass');
 
 
-
 $(document).on('pagecontainerbeforeshow', function (evt, data) {
 
     if (login == null || pass == null) {
         $("body").pagecontainer("change", "login.html", { transition: "slide" });
     }
-
 });
 
 

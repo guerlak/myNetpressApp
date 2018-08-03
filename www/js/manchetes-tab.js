@@ -2,7 +2,6 @@
 if(!isAuthenticated()){
 
     myNavigator.resetToPage("manchetes.html");
-    console.log("passar not auth")
 
 } else {
 
@@ -14,36 +13,43 @@ if(!isAuthenticated()){
     
     var images = document.querySelector('#manchetes-images-tab');
     var mancheteImgZoom = document.querySelector('#manchete-image-zoom');
-    var request = new XMLHttpRequest();
 
-        request.open('GET', requestURL);
-        request.responseType = 'text';
-        
-        request.onload = function () {  
+    const loadManchetesTab =  function(){
 
-            if(request.status === 500){  console.log(request.status)
-                images.innerHTML = "<p id='no-internet'>Parece que não há conexão a internet, verifique sua rede...</p>"
-                modal.hide();
-        
-            }else{
-        
+        let request = new XMLHttpRequest();
+
+            request.open('GET', requestURL);
+            request.responseType = 'text';
+            
+            request.onload = function () {  
+
+                if(request.status === 500){  console.log(request.status)
+                    images.innerHTML = "<p id='no-internet'>Parece que não há conexão a internet, verifique sua rede...</p>"
+                    modal.hide();
+            
+                }else{
+            
+                    var mancheteText = request.response;
+                        mancheteText = mancheteText.substring(1, mancheteText.length - 1);
+                    var manchetes = JSON.parse(mancheteText);
+            
+                    console.log(request.status)
+                    populate(manchetes);
+
                 var mancheteText = request.response;
                     mancheteText = mancheteText.substring(1, mancheteText.length - 1);
                 var manchetes = JSON.parse(mancheteText);
-        
-                console.log(request.status)
+                modal.hide();
                 populate(manchetes);
+                
+                }
 
-            var mancheteText = request.response;
-                mancheteText = mancheteText.substring(1, mancheteText.length - 1);
-            var manchetes = JSON.parse(mancheteText);
-            modal.hide();
-            populate(manchetes);
-            
             }
+            request.send();
 
-        }
-        request.send();
+    }
+
+    loadManchetesTab();
             
         function populate(jsonObj) {
 
@@ -60,27 +66,9 @@ if(!isAuthenticated()){
             images.innerHTML = html;
         }
 
-        var prev = function() {
-            var carousel = document.getElementById('carousel');
-            carousel.prev();
-        };
-        
-        var next = function() {
-            var carousel = document.getElementById('carousel');
-            carousel.next();
-        };
-        
-        ons.ready(function() {
-            var carousel = document.addEventListener('postchange', function(event) {
-            
-            });
-
-        });
-
         var mancheteImgOpen = function(){
             const dialogHTML = "<ons-dialog id='zoom-manchete-img' cancelable><div style='text-align: center; padding: 5px;'><img width='100%' src='" + event.target.src + "' />"+
                             "<p><ons-button onclick='hideDialog(\"zoom-manchete-img\")'>fechar</ons-button></p>"
-   
             mancheteImgZoom.innerHTML = dialogHTML;
             showTemplateDialog();
         }
@@ -95,4 +83,32 @@ if(!isAuthenticated()){
             document.getElementById(id).hide();
         };
 
-}
+        var pullHook = document.getElementById('pull-hook-manchetes-tab');
+        
+        pullHook.addEventListener('changestate', function(event) {
+
+            var message = '';
+            
+                switch (event.state) {
+                    case 'initial':
+                    message = 'Pull to refresh';
+                    break;
+                    case 'preaction':
+                    message = 'Release';
+                    break;
+                    case 'action':
+                    message = '<ons-progress-circular indeterminate></ons-progress-circular>';
+                    loadManchetesTab();
+        
+                    break;
+                }
+                    pullHook.innerHTML = message;
+
+        });
+
+        pullHook.onAction = function(done) {
+            setTimeout(done, 2000);
+        }
+
+    }
+

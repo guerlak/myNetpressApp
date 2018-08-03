@@ -1,0 +1,13 @@
+var runNoticiasDia = function(){
+
+   showList("");
+
+}
+
+ 
+
+
+
+
+
+    

@@ -44,6 +44,9 @@ var runNoticiasTextoTab = function(){
                         case "mp4'":
                         icon = '<button class="fab fab--mini noticiasTexto-btn" onclick="window.open(' + linkTab + ',' + sys + ');"><i class="zmdi zmdi-play"></i></button>';
                         break;
+                        case "mp3'":
+                        icon = '<button class="fab fab--mini noticiasTexto-btn" onclick="window.open(' + link + ',' + sys + ');"><i class="zmdi zmdi-volume-up"></i></button>';
+                        break;
                         default: 
                         icon = '<button class="fab fab--mini noticiasTexto-btn" onclick="window.open(' + linkTab + ',' + sys + ');"><i class="zmdi zmdi-globe"></i></button>';
                     }

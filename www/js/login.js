@@ -24,7 +24,7 @@ var loginRun = function(){
                 async: true,
                 success: function (result) {
                     ajax.parseJSON(result);
-                    console.log('running');
+                
                 },
                 error: function (request, error) {
                     alert('Erro ao buscar dados no sevidor, tente mais tarde.');

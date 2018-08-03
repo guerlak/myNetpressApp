@@ -45,8 +45,7 @@ var runPesquisa = function (){
             dataType: "text",
             async: true,
             success: function (result) {
-                ajaxTema.parseJSON(result);
-           
+                ajaxTema.parseJSON(result)
             },
             error: function (request, error) {
                 alert('Network error has occurred please try again!');
@@ -57,11 +56,9 @@ var runPesquisa = function (){
 
             parseJSON: function (result) {
 
-                result = result.substring(1, result.length - 1);
+                var result = result.substring(1, result.length - 1);
                 
                 var parsed = JSON.parse(result);
-
-                console.log(parsed[0]);
 
                 var selectDiv = document.querySelector('#select_temas');
                 var selectHTML = '<ons-select id="tema" class="select">'
@@ -141,14 +138,15 @@ var runSearch = function(){
         if(or.checked){
             operador = "or";
         }
-
         if(and.checked){
             operador = "and";
         }
 
+        
     var url = 'https://services.manchete.pt:8002/Clientes.asmx/getSearch?user='+login+'&password='+ pass +'&callback=&datainicio='+dataInicio+'&datafim='+dataFim+'&tipo='+tipo+'&tema='+tema+'&publicacao='+publicacao+'&palavra1='+palavra1+'&palavra2='+palavra2+'&operador='+operador;
     var urlEncoded = encodeURI(url);
     
+
     $.ajax({
         url: urlEncoded,
         dataType: "text",

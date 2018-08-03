@@ -1,5 +1,6 @@
 
-var app = {
+var myNetpress = {
+    
     // Application Constructor
     initialize: function() {
         document.addEventListener('deviceready', this.onDeviceReady.bind(this), false);
@@ -11,6 +12,7 @@ var app = {
     onDeviceReady: function() {
 
         this.receivedEvent('deviceready');
+ 
 
         const push = PushNotification.init({
             android: {
@@ -29,6 +31,7 @@ var app = {
         push.on('registration', function(data) {
       
             var oldRegId = localStorage.getItem('registrationId');
+
             console.log("Registration ID: "+ data.registrationId);
      
             if (oldRegId !== data.registrationId) {
@@ -57,6 +60,8 @@ var app = {
             // Add empty attribute to the <html> element
             document.documentElement.setAttribute('onsflag-iphonex-portrait', '');
           }
+
+          loadUser();
     },
     // Update DOM on a Received Event
     receivedEvent: function(id) {
@@ -64,4 +69,4 @@ var app = {
     }
 };
 
-app.initialize();
+myNetpress.initialize();
