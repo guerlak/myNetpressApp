@@ -25,6 +25,7 @@
         <ons-splitter-side id="menu" side="left" width="220px" collapse>
         <ons-page>
           <ons-list>
+
             <ons-list-item style="background-color: #4b76c1">
               <img width='100px' src="img/manchete.png">
             </ons-list-item>
@@ -86,6 +87,7 @@
             <ons-list-item onclick="fn.load('radio.html');" tappable>
                 Rádio
             </ons-list-item>
+
             <!-- <ons-list-header style="background-color: #4b76c1; color: #fff">TEMAS</ons-list-header>
             <ons-list-item onclick="myNavigator.resetToPage('tab-bar.html');menu.close();" tappable>
                 Tab bar
@@ -795,7 +797,6 @@
                 </div>
               </ons-toolbar> 
 
-
             <ons-tabbar swipeable position="auto">
               <ons-tab page="tab1.html" label="Manchetes" icon="fa-file" active>
               </ons-tab>
@@ -814,8 +815,6 @@
               </ons-pull-hook>
 
           <div id="manchetes-images-tab"></div>
-
-        
 
           <script src="js/manchetes-tab.js"></script>
       
@@ -893,20 +892,20 @@
 
       <ons-modal direction="up"><div class="progress-bar progress-bar--indeterminate"></div></ons-modal>
 
+
       <div id="manchete-image-zoom"></div>
 
-  <!-- <ons-modal direction="up">
-    <div style="text-align: center">
-      <p>
-        <ons-icon icon="md-spinner" size="28px" spin></ons-icon> A carregar...
-      </p>
-    </div>
-  </ons-modal> -->
+    <!-- <ons-modal direction="up">
+      <div style="text-align: center">
+        <p>
+          <ons-icon icon="md-spinner" size="28px" spin></ons-icon> A carregar...
+        </p>
+      </div>
+    </ons-modal> -->
     
     <script src="js/index.js"></script>
     <script src="js/app.js"></script>
     <script src="js/listFunction.js"></script>
-    <script src="js/notifications.js"></script>
     <script src="js/noticias-dia.js"></script>
     <script src="js/noticias-dia-tab.js"></script>
     <script src="js/noticias-dia-tema.js"></script>
@@ -920,7 +919,9 @@
     <script src="js/social.js"></script>
     <script src="js/pesquisa.js"></script> 
     <script src="js/login.js"></script>
+    <script src="js/notifications.js"></script>
     <script src="js/user-info.js"></script>
+
     <script src="js/noticia-texto.js"></script>
     <script src="js/noticia-texto-tab.js"></script>
 

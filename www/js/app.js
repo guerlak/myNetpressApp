@@ -3,9 +3,6 @@ const modal = document.querySelector('ons-modal');
 const myNavigator = document.getElementById('myNavigator');
 const registrationId = storage.getItem('registrationId');
 
-var login = storage.getItem('userLogin');
-var pass = storage.getItem('userPass');
-
 const date = new Date();
 const dataInicio = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
 
@@ -13,38 +10,93 @@ const d = new Date();
       d.setDate(d.getDate() + 1); 
 const dataFim = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + (d.getDate());
 
-var listaFavoritos = [];
-var savedId = "";
+var login, pass;
+
+var user = {
+    logo: "",
+    nomecliente: "",
+    email: "",
+    nomeacesso: ""
+}
+
+// var listaFavoritos = [];
+// var savedId = "";
 
 window.fn = {};
 
 window.fn.open = function() {
-  const menu = document.getElementById('menu');
-  menu.open();
+    const menu = document.getElementById('menu');
+    menu.open();
 };
 
 window.fn.load = function(page) {
-    if(isAuthenticated()){
-        myNavigator.pushPage(page);
-        menu.close();
-    }else{
-    ons.notification.alert({
-        title: "Aviso",
-        message: "Faça o login de utilizador para aceder a aplicação."
+    myNavigator.pushPage(page);
+    menu.close();
+}
+
+const authUser =  function(log, pass){
+
+    storage.setItem("userLogin", log);
+    storage.setItem("userPass", pass);
+
+    ons.notification.toast('Bem vindo a Manchete', {
+        timeout: 3000
     });
-    }
+    myNavigator.resetToPage("tab-bar-home.html");
+
 }
 
 
-const isAuthenticated = function(){
+
+const loadUser = function(){
+
+    console.log("Loading user...")
+
+    login = storage.getItem('userLogin');
+    pass = storage.getItem('userPass');
+
+    if(!isAuthenticated(login, pass)){
+        myNavigator.resetToPage("manchetes.html");
+    }else{
+
+        var requestURL = 'https://services.manchete.pt:8002/Clientes.asmx/AuthenticateLogin?user=' + login + '&password=' + pass + '&callback=&deviceType=&deviceToken=';
+        var request = new XMLHttpRequest();
+
+        request.open('GET', requestURL);
+        request.responseType = 'text';
+        request.send();
+
+        request.onload = function () {
+
+            var userText = request.response;
+                userText = userText.substring(1, userText.length - 1);
+            var data = JSON.parse(userText);
+                document.querySelector('#nome-utilizador').innerHTML = "Olá, <b>"+data.nomecliente+"</b>";
+
+                console.log(data)
+            
+           user.logo = data.logo;
+           user.email = data.mail;
+           user.nomecliente = data.nomecliente;
+           user.nomeacesso = data.nomeacesso;
+
+        }
+    }
+        
+}
+
+
+const isAuthenticated = function(login, pass){
     
     let result;
-    if(!storage.getItem('userLogin') || !storage.getItem('userPass') ){
-        result = false;
-    }else{
-        result = true;
-    }
-    return result;
+
+        if(!login || !pass){
+            result = false;
+        }else{
+            result = true;
+        }
+        return result;
+
 }
 
 
@@ -71,7 +123,6 @@ const logout = function() {
     
 }
 
-
 const sendEmail = function (newId, tipo){
 
     var name = document.getElementById("nameShare").value;
@@ -88,45 +139,12 @@ const sendEmail = function (newId, tipo){
     request.send();
 
     request.onload = function () {
-
         document.getElementById('my-alert-dialog').hide();
         console.log("Email enviado.");
 
     }
 
 }
-
-
-
-const loadUser = function(){
-
-    console.log("Loading user...")
-
-    var requestURL = 'https://services.manchete.pt:8002/Clientes.asmx/AuthenticateLogin?user=' + login + '&password=' + pass + '&callback=&deviceType=&deviceToken=';
-    
-    var request = new XMLHttpRequest();
-
-    request.open('GET', requestURL);
-    request.responseType = 'text';
-    request.send();
-
-    request.onload = function () {
-
-        var userText = request.response;
-            userText = userText.substring(1, userText.length - 1);
-        var data = JSON.parse(userText);
-            document.querySelector('#nome-utilizador').innerHTML = "Olá, <b>"+data.nomecliente +"</b>";
-        var logo = document.createElement('img');
-            logo.setAttribute("width", "100px");
-        
-    }
-        
-}
-    
-
-
-
-
 
 
 

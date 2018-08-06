@@ -55,17 +55,8 @@ var loginRun = function(){
 
                     } else {
 
-                        storage.setItem("userLogin", inputEmail);
-                        storage.setItem("userPass", inputPass);
-
-                        login = inputEmail;
-                        pass = inputPass;
-
-                        ons.notification.toast('Bem vindo a Manchete', {
-                            timeout: 3000
-                        });
-                        loadUser();
-                        myNavigator.resetToPage("tab-bar-home.html");
+                        authUser(inputEmail, inputPass);
+                        
                     }               
                 }
             }

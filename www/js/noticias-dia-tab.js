@@ -9,11 +9,6 @@ function goToNewsTextTab(el){
 
 var runNoticiasTab = function(){
 
-    if(!isAuthenticated()){
-        myNavigator.resetToPage("manchetes.html");
-        console.log("passar not auth");
-    }else{ 
-
     const loadNoticiasTab = function() {
 
     var url = 'https://services.manchete.pt:8002/Clientes.asmx/getNewsPress?user=' + login + '&password=' + pass + '&callback=&datainicio=' + dataInicio + '&datafim=' + dataFim + '&referencia3=';
@@ -118,5 +113,5 @@ var runNoticiasTab = function(){
             setTimeout(done, 2000);
         }
 
-    }
+    
 }

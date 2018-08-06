@@ -1,4 +1,3 @@
-
 var myNetpress = {
     
     // Application Constructor
@@ -12,7 +11,6 @@ var myNetpress = {
     onDeviceReady: function() {
 
         this.receivedEvent('deviceready');
- 
 
         const push = PushNotification.init({
             android: {
@@ -60,8 +58,7 @@ var myNetpress = {
             // Add empty attribute to the <html> element
             document.documentElement.setAttribute('onsflag-iphonex-portrait', '');
           }
-
-          loadUser();
+        loadUser();
     },
     // Update DOM on a Received Event
     receivedEvent: function(id) {

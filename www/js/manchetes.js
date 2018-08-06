@@ -77,7 +77,6 @@ var mancheteImgOpen = function(){
 }
 
 
-
 var showTemplateDialog = function() {
     var dialog = document.getElementById('zoom-manchete-img');
       dialog.show();

@@ -1,6 +1,5 @@
 var noticias, noticiaIndex;
 
-
 var showList = function(referencia){
 
     console.log("List FN")

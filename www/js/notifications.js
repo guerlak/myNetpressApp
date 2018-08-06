@@ -1,13 +1,12 @@
 const toggleNotification = function(){
 
-    const not = document.getElementById('checkNoti');
+    const notification = document.getElementById('check-notification');
     let url;
-    console.log(not.checked);
+    console.log(notification.checked);
 
-    if(!not.checked){
+    if(!notification.checked){
         console.log("Disable notification")
-
-    url = 'https://services.manchete.pt:8002/Clientes.asmx/ActivateNotifications?user=' + login + '&password=' + pass + '&callback=""&deviceType='+ device.platform +'&deviceToken='+registrationId+'&activate=0';
+        url = 'https://services.manchete.pt:8002/Clientes.asmx/ActivateNotifications?user=' + login + '&password=' + pass + '&callback=""&deviceType='+ device.platform +'&deviceToken='+registrationId+'&activate=0';
 
     }else{
         console.log("Enable notification")
@@ -21,7 +20,6 @@ const toggleNotification = function(){
 }
 
 
-
 const removeNotifications = function(){
 
     var url = 'https://services.manchete.pt:8002/Clientes.asmx/DeleteNotifications?user=' + login + '&password=' + pass + '&callback=&deviceType=' + cordova.platformId + '&deviceToken='+registrationId;
@@ -30,7 +28,6 @@ const removeNotifications = function(){
     console.log('token logout is: ' + registrationId)
 
     $.ajax({
-        
         url: url,
         dataType: "text",
         async: true,
@@ -38,7 +35,7 @@ const removeNotifications = function(){
             ajax.parseJSON(result);
         },
         error: function (request, error) {
-            console.log('Erro ao deletar token do sevidor.');
+            console.log('Erro ao remover token do sevidor -> ', error);
         }
     })
 
@@ -49,34 +46,32 @@ const removeNotifications = function(){
     }
 }
 
-const isNotificationChecked = function(){
+
+var isNotificationChecked = function(){
 
     let getStateNotificationURL = 'https://services.manchete.pt:8002/Clientes.asmx/StateNotifications?user=' + login + '&password=' + pass + '&callback=""&deviceType='+ device.platform +'&deviceToken='+registrationId;
     let request = new XMLHttpRequest();
 
-        request.open('GET', getStateNotificationURL);
-        request.responseType = 'text';
-        request.send();
+    request.open('GET', getStateNotificationURL);
+    request.responseType = 'text';
+    request.send();
 
-        request.onload = function () {
+    request.onload = function () {
 
-            var stateText = request.response;
-            stateText = stateText.substring(3, stateText.length - 1);
+        var stateText = request.response;
+        stateText = stateText.substring(3, stateText.length - 1);
 
-            console.log(stateText)
+        var state = JSON.parse(stateText);
+        const n = document.getElementById('notification-state');
 
-           var state = JSON.parse(stateText);
-           const n = document.getElementById('notification-state');
 
-           if(state.estadoNot === "true"){
-               console.log("returning true");
-               n.innerHTML = "<ons-list-item><div class='center'><b>Notificações</b></div><div class='right'><ons-switch id='checkNoti' checked onchange='toggleNotification()'></ons-switch></div></ons-list-item>";
-               
-           }else{
-               console.log("returning false")
-               n.innerHTML = "<ons-list-item><div class='center'><b>Notificações</b></div><div class='right'><ons-switch id='checkNoti' onchange='toggleNotification()'></ons-switch></div></ons-list-item>";
-               
-           }
-        
+        if(state.estadoNot === "true"){
+            console.log("returning true");
+            n.innerHTML = "<ons-list-item><div class='center'><b>Notificações</b></div><div class='right'><ons-switch id='check-notification' checked onchange='toggleNotification()'></ons-switch></div></ons-list-item>";
+            
+        }else{
+            console.log("returning false")
+            n.innerHTML = "<ons-list-item><div class='center'><b>Notificações</b></div><div class='right'><ons-switch id='check-notification' onchange='toggleNotification()'></ons-switch></div></ons-list-item>";
+        }
     }
 }
