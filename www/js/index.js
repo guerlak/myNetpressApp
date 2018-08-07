@@ -1,4 +1,4 @@
-var myNetpress = {
+var app = {
     
     // Application Constructor
     initialize: function() {
@@ -12,6 +12,8 @@ var myNetpress = {
 
         this.receivedEvent('deviceready');
 
+        console.log("running index.js")
+
         const push = PushNotification.init({
             android: {
             },
@@ -23,7 +25,9 @@ var myNetpress = {
                 badge: "true",
                 sound: "true"
             },
+
             windows: {}
+            
         });
 
         push.on('registration', function(data) {
@@ -58,12 +62,12 @@ var myNetpress = {
             // Add empty attribute to the <html> element
             document.documentElement.setAttribute('onsflag-iphonex-portrait', '');
           }
-        loadUser();
+
+       
     },
     // Update DOM on a Received Event
     receivedEvent: function(id) {
 
     }
-};
-
-myNetpress.initialize();
+}
+app.initialize();

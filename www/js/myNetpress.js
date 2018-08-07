@@ -1,3 +1,6 @@
+
+
+console.log("running mynet")
 const storage = window.localStorage;
 const modal = document.querySelector('ons-modal');
 const myNavigator = document.getElementById('myNavigator');
@@ -36,6 +39,7 @@ window.fn.load = function(page) {
 
 const authUser =  function(log, pass){
 
+    console.log("authenticating user, " + log)
     storage.setItem("userLogin", log);
     storage.setItem("userPass", pass);
 
@@ -56,7 +60,9 @@ const loadUser = function(){
     pass = storage.getItem('userPass');
 
     if(!isAuthenticated(login, pass)){
-        myNavigator.resetToPage("manchetes.html");
+        myNavigator.resetToPage('manchetes.html')
+        console.log("User not auth in loadUser fn")
+
     }else{
 
         var requestURL = 'https://services.manchete.pt:8002/Clientes.asmx/AuthenticateLogin?user=' + login + '&password=' + pass + '&callback=&deviceType=&deviceToken=';
@@ -145,6 +151,10 @@ const sendEmail = function (newId, tipo){
     }
 
 }
+
+// loadUser();
+
+
 
 
 

@@ -12,9 +12,10 @@
       <link rel="stylesheet" href="lib/css/onsenui.min.css">
       <link rel="stylesheet" href="css/index.css">
 
-      <script src="cordova.js"></script>
       <script src="lib/js/onsenui.min.js"></script>
       <script src="lib/js/jquery.min.js"></script>
+
+   
       
       <title>MyNetpress App</title>
   </head>
@@ -100,7 +101,7 @@
       <!-- <ons-splitter-content id="content" page="home.html"></ons-splitter-content> -->
 
       <ons-splitter-content>
-        <ons-navigator id="myNavigator" page="tab-bar-home.html"></ons-navigator>
+        <ons-navigator id="myNavigator" page="manchetes.html"></ons-navigator>
       </ons-splitter-content> 
 
       </ons-splitter>
@@ -803,6 +804,13 @@
               <ons-tab page="tab2.html" label="Noticias" icon="fa-list-ul">
               </ons-tab>
             </ons-tabbar>
+
+            <script>
+              ons.getScriptPage().onInit = function() {
+                loadUser();
+              }
+          </script>
+
         </ons-page>
       </template>
 
@@ -825,24 +833,28 @@
       <template id="tab2.html">
 
           <ons-page id="Tab2">
-              <ons-pull-hook id="pull-hook-noticias-tab">
-                  Pull to refresh
-                </ons-pull-hook>
+
+          <ons-pull-hook id="pull-hook-noticias-tab">
+              Pull to refresh
+          </ons-pull-hook>
             
-                <div id="progress_bar"></div>
-            
-                <ons-list>
-            <ons-lazy-repeat id="noticias-list-tab"></ons-lazy-repeat>
-          </ons-list>
+          <div id="progress_bar"></div>
 
           <div id="sem-noticia-tab"></div>
           <div id="erro-noticia-tab"></div>
+
             
-                <script>
-                  ons.getScriptPage().onInit = function() {
-                    runNoticiasTab();
-                  };
-                </script>
+          <ons-list>
+            <ons-lazy-repeat id="noticias-list-tab"></ons-lazy-repeat>
+          </ons-list>
+
+                      
+          <script>
+              ons.getScriptPage().onInit = function() {
+                loadNoticiasTab();
+              }
+          </script>
+
           </ons-page>
       </template>
 
@@ -863,7 +875,6 @@
           <div id="manchetes-images"></div>
 
           <div id="sem-manchete"></div>
-
 
           <script src="js/manchetes.js"></script>
         </ons-page>
@@ -902,9 +913,9 @@
         </p>
       </div>
     </ons-modal> -->
-    
+
+    <script src="cordova.js"></script>
     <script src="js/index.js"></script>
-    <script src="js/app.js"></script>
     <script src="js/listFunction.js"></script>
     <script src="js/noticias-dia.js"></script>
     <script src="js/noticias-dia-tab.js"></script>
@@ -921,9 +932,9 @@
     <script src="js/login.js"></script>
     <script src="js/notifications.js"></script>
     <script src="js/user-info.js"></script>
-
     <script src="js/noticia-texto.js"></script>
     <script src="js/noticia-texto-tab.js"></script>
+    <script src="js/myNetpress.js"></script>
 
   </body>
 

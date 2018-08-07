@@ -9,17 +9,20 @@ var mancheteImgZoom = document.querySelector('#manchete-image-zoom');
 
     var loadManchetesTab =  function(){
 
+        console.log("running manchetes tab")
+
         let request = new XMLHttpRequest();
 
             request.open('GET', requestURL);
             request.responseType = 'text';
             request.onload = function () {  
 
-                if(request.status === 500){  console.log(request.status)
+                if(request.status === 500){  
+                    console.log(request.status)
                     images.innerHTML = "<p id='no-internet'>Parece que não há conexão a internet, verifique sua rede...</p>"
                     modal.hide();
             
-                }else{
+                } else {
             
                     var mancheteText = request.response;
                         mancheteText = mancheteText.substring(1, mancheteText.length - 1);
@@ -65,7 +68,6 @@ var mancheteImgZoom = document.querySelector('#manchete-image-zoom');
     var showTemplateDialog = function() {
         var dialog = document.getElementById('zoom-manchete-img');
             dialog.show();
-        
     };
     
     var hideDialog = function(id) {
@@ -98,6 +100,7 @@ var mancheteImgZoom = document.querySelector('#manchete-image-zoom');
     pullHook.onAction = function(done) {
         setTimeout(done, 2000);
     }
+
 
 
 
