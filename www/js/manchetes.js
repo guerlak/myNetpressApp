@@ -1,9 +1,16 @@
-﻿var loginFree = "manchetemobile";
+﻿if(user.authenticated){
+
+    myNavigator.resetToPage('tab-bar-home.html')
+    console.log("User authenticated on manchetes")
+
+} else {
+
+var loginFree = "manchetemobile";
 var passFree = "mancheteqwerty";
 
 var requestURL = 'https://services.manchete.pt:8001/Manchetes.asmx/getCoversPress?user=' + loginFree + '&password=' + passFree + '&callback=';
 
-modal.show();
+// modal.show();
  
 var images = document.querySelector('#manchetes-images');
 var mancheteImgZoom = document.querySelector('#manchete-image-zoom');
@@ -17,7 +24,7 @@ var request = new XMLHttpRequest();
 
         if(request.status === 500){  
             console.log(request.status)
-            images.innerHTML = "<p id='no-internet'>Parece que não há conexão a internet, verifique sua rede...</p>"
+            images.innerHTML = "<p id='no-internet'>Problemas de conexão a internet, verifique sua rede...</p>"
             modal.hide();
 
             }else{
@@ -25,6 +32,8 @@ var request = new XMLHttpRequest();
             var mancheteText = request.response;
                 mancheteText = mancheteText.substring(1, mancheteText.length - 1);
             var manchetes = JSON.parse(mancheteText);
+
+            console.log(manchetes)
 
             populate(manchetes);
 
@@ -45,7 +54,7 @@ function populate(jsonObj) {
             html += '<div><img class="mancheteImgs" alt="manchete do dia" width="100%" onClick="mancheteImgOpen()" src=' + jsonObj[i].link + ' /></div>';
         }
     }
-    modal.hide();
+    // modal.hide();
     images.innerHTML = html;
 
 }
@@ -68,7 +77,6 @@ function populate(jsonObj) {
 });
 
 
-
 var mancheteImgOpen = function(){
     const dialogHTML = "<ons-dialog id='zoom-manchete-img' cancelable><div style='text-align: center; padding: 5px;'><img width='100%' src='" + event.target.src + "' />"+
                     "<p><ons-button onclick='hideDialog(\"zoom-manchete-img\")'>fechar</ons-button></p>"
@@ -86,4 +94,6 @@ var showTemplateDialog = function() {
   var hideDialog = function(id) {
     document.getElementById(id)
       .hide();
-  };
+  }
+}
+

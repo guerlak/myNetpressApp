@@ -1,34 +1,41 @@
 
+var storage = window.localStorage;
+var modal = document.querySelector('ons-modal');
+var myNavigator = document.getElementById('myNavigator');
+var registrationId = storage.getItem('registrationId');
 
-console.log("running mynet")
-const storage = window.localStorage;
-const modal = document.querySelector('ons-modal');
-const myNavigator = document.getElementById('myNavigator');
-const registrationId = storage.getItem('registrationId');
+var date = new Date();
+var dataInicio = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
 
-const date = new Date();
-const dataInicio = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
-
-const d = new Date();
-      d.setDate(d.getDate() + 1); 
-const dataFim = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + (d.getDate());
-
-var login, pass;
+var d = new Date();
+    d.setDate(d.getDate() + 1); 
+var  dataFim = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + (d.getDate());
 
 var user = {
     logo: "",
     nomecliente: "",
     email: "",
-    nomeacesso: ""
+    nomeacesso: "",
+    authenticated: false
 }
 
-// var listaFavoritos = [];
-// var savedId = "";
+var login = storage.getItem('userLogin');
+var pass = storage.getItem('userPass');
+
+var checkAuth = function(log, pass){
+    if(log && pass){
+        user.authenticated = true;
+    }else{
+        user.authenticated = false;
+    }
+}
+
+checkAuth(login, pass);
 
 window.fn = {};
-
 window.fn.open = function() {
-    const menu = document.getElementById('menu');
+
+var menu = document.getElementById('menu');
     menu.open();
 };
 
@@ -37,76 +44,62 @@ window.fn.load = function(page) {
     menu.close();
 }
 
-const authUser =  function(log, pass){
+var authUser =  function(l, p){
 
-    console.log("authenticating user, " + log)
-    storage.setItem("userLogin", log);
-    storage.setItem("userPass", pass);
-
+    
+    storage.setItem("userLogin", l);
+    storage.setItem("userPass", p);
+    login = l;
+    pass = p;
+    user.authenticated = true;
+    loadUser(login, pass);
     ons.notification.toast('Bem vindo a Manchete', {
         timeout: 3000
     });
+    
     myNavigator.resetToPage("tab-bar-home.html");
+}
 
+var isAuthenticated = function(u){
+    var result;
+        if(!u.authenticated){
+            result = false;
+        }else{
+            result = true;
+        }
+        return result;
 }
 
 
+function loadUser(l, p){
 
-const loadUser = function(){
-
-    console.log("Loading user...")
-
-    login = storage.getItem('userLogin');
-    pass = storage.getItem('userPass');
-
-    if(!isAuthenticated(login, pass)){
-        myNavigator.resetToPage('manchetes.html')
-        console.log("User not auth in loadUser fn")
-
-    }else{
-
-        var requestURL = 'https://services.manchete.pt:8002/Clientes.asmx/AuthenticateLogin?user=' + login + '&password=' + pass + '&callback=&deviceType=&deviceToken=';
+    if(user.authenticated){
+      
+        var requestURL = 'https://services.manchete.pt:8002/Clientes.asmx/AuthenticateLogin?user=' + l + '&password=' + p + '&callback=&deviceType=&deviceToken=';
         var request = new XMLHttpRequest();
 
         request.open('GET', requestURL);
         request.responseType = 'text';
         request.send();
 
-        request.onload = function () {
-
-            var userText = request.response;
-                userText = userText.substring(1, userText.length - 1);
-            var data = JSON.parse(userText);
-                document.querySelector('#nome-utilizador').innerHTML = "Olá, <b>"+data.nomecliente+"</b>";
-
-                console.log(data)
-            
-           user.logo = data.logo;
-           user.email = data.mail;
-           user.nomecliente = data.nomecliente;
-           user.nomeacesso = data.nomeacesso;
-
-        }
+            request.onload = function () {
+                var userText = request.response;
+                    userText = userText.substring(1, userText.length - 1);
+                var data = JSON.parse(userText);
+                    document.querySelector('#nome-utilizador').innerHTML = "Olá, <b>"+data.nomecliente+"</b>";
+                
+            user.logo = data.logo;
+            user.email = data.mail;
+            user.nomecliente = data.nomecliente;
+            user.nomeacesso = data.nomeacesso;
+            }
+    } else {
+        console.log("User not auth in loadUser fn...")
     }
-        
 }
 
 
-const isAuthenticated = function(login, pass){
-    
-    let result;
-
-        if(!login || !pass){
-            result = false;
-        }else{
-            result = true;
-        }
-        return result;
-
-}
-
-
-const logout = function() {
+var logout = function() {
 
     ons.notification.confirm({
         message: "Pretende sair da aplicação?",
@@ -117,6 +110,9 @@ const logout = function() {
                 storage.removeItem('userLogin');
                 storage.removeItem('userPass');
                 removeNotifications();
+                login = "";
+                pass = "";
+                user.authenticated = false;
                 ons.notification.toast('Logout com sucesso', {
                     timeout: 2000
                 });
@@ -129,57 +125,63 @@ const logout = function() {
     
 }
 
-const sendEmail = function (newId, tipo){
+
+var sendEmail = function (newId, tipo){
 
     var name = document.getElementById("nameShare").value;
     var emailDestination = document.getElementById("emailShare").value;
     var message = document.getElementById("messageShare").value;
+
+    var reg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+    var emailRegex = reg.test(emailDestination);
+
+    if(!emailRegex){
+
+        ons.notification.toast('Favor inserir um email válido.', {
+            timeout: 3000
+        })
+
+    }else{
   
-    var url = "https://services.manchete.pt:8002/Clientes.asmx/sendnewByEmail?newId="+newId+"&tipo="+tipo+"&emailSender="+login+"&emailDestination="+emailDestination+"&nameDestination="+name+"&message="+message+"&user="+login+"&password="+pass+"&callback=";
+        var emailUrl = "https://services.manchete.pt:8002/Clientes.asmx/sendnewByEmail?newId="+newId+"&tipo="+tipo+"&emailSender="+login+"&emailDestination="+emailDestination+"&nameDestination="+name+"&message="+message+"&user="+login+"&password="+pass+"&callback=";
 
-    var urlEncoded = encodeURI(url);
-    console.log(urlEncoded);
-    var request = new XMLHttpRequest();
-    request.open('GET', urlEncoded);
-    request.responseType = 'text';
-    request.send();
+        var urlEncoded = encodeURI(emailUrl);
+        var request = new XMLHttpRequest();
+        request.open('GET', urlEncoded);
+        request.send();
 
-    request.onload = function () {
-        document.getElementById('my-alert-dialog').hide();
-        console.log("Email enviado.");
-
+        request.onload = function () {
+            document.querySelector('ons-alert-dialog').hide();
+            ons.notification.toast('Email enviado.', {
+                timeout: 3000
+            })
+        }
     }
-
 }
 
-// loadUser();
 
+loadUser(login, pass);
 
+function showLoading(){
+    document.querySelector('.loading').innerHTML = '<div id="loading" class="progress-bar progress-bar--indeterminate">';   
+}
 
+function hideLoading(){
+    document.querySelector('.loading').innerHTML = '';
+}
 
+function checkConnection() {
+    var networkState = navigator.connection.type;
 
+    if(networkState == "none"){
+        ons.notification.alert({
+            message: "Sem conexão a internet, verifique sua rede.",
+            title: "Sem conexão",
+            cancelable: false
+    })
+    }
+}
 
-// function guardarFavoritos() {
-//   console.log("Entrando na funcao: " + noticias[noticiaID].titulo);
-//       var noticia = savedId;
-//       console.log("noticia fav "+ noticia);
-//       var listaFavoritos = storage.getItem('lista-favoritos');
+document.addEventListener('deviceready', checkConnection, false);
 
-//       if (listaFavoritos == null) {
-//           listaFavoritos = [];
-//       } else {
-//           listaFavoritos = JSON.parse(listaFavoritos);
-//       }
-      
-//       listaFavoritos.push(noticia);
-//       storage.setItem('lista-favoritos', JSON.stringify(listaFavoritos));
-//       alert('Notícia em favoritos');
-//       console.log("console 1: " + storage.getItem('lista-favoritos'));
-//       console.log(JSON.parse(storage.getItem('lista-favoritos')));
-// }
-
-
-
-
-
-  

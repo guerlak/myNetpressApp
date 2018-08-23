@@ -9,12 +9,10 @@ var loginRun = function(){
         return;
 
     }  else  {
-
-            const registrationId = storage.getItem('registrationId');
-            
+        
+            var registrationId = storage.getItem('registrationId');
             var url = 'https://services.manchete.pt:8002/Clientes.asmx/AuthenticateLogin?user=' + inputEmail + '&password=' + inputPass + '&callback=&deviceType=' + cordova.platformId + '&deviceToken='+registrationId;
            
-            console.log(url);
             console.log('token is: ' + registrationId)
 
             $.ajax({
@@ -53,9 +51,7 @@ var loginRun = function(){
                     })
 
                     } else {
-
                         authUser(inputEmail, inputPass);
-                        
                     }               
                 }
             }

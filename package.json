@@ -1,0 +1,44 @@
+{
+    "name": "com.mynetpress.app",
+    "displayName": "MyNetpressApp",
+    "version": "1.0.2",
+    "description": "Manchete MYNetpress Application",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "Apache Cordova Team",
+    "license": "Apache-2.0",
+    "dependencies": {
+        "cordova-android": "^7.1.0",
+        "cordova-browser": "^5.0.3",
+        "cordova-icon": "^1.0.0",
+        "cordova-ios": "^4.5.5",
+        "cordova-plugin-device": "^2.0.2",
+        "cordova-plugin-network-information": "^2.0.1",
+        "cordova-plugin-splashscreen": "^5.0.2",
+        "cordova-plugin-whitelist": "^1.3.3",
+        "cordova-support-google-services": "^1.1.0",
+        "device": "^0.3.9",
+        "onsenui": "^2.10.3",
+        "phonegap-plugin-multidex": "^1.0.0",
+        "phonegap-plugin-push": "^2.2.3"
+    },
+    "cordova": {
+        "plugins": {
+            "cordova-plugin-whitelist": {},
+            "cordova-plugin-device": {},
+            "cordova-plugin-splashscreen": {},
+            "cordova-plugin-network-information": {},
+            "phonegap-plugin-push": {
+                "ANDROID_SUPPORT_V13_VERSION": "27.+",
+                "FCM_VERSION": "11.6.2"
+            }
+        },
+        "platforms": [
+            "browser",
+            "android",
+            "ios"
+        ]
+    }
+}

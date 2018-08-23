@@ -62,21 +62,21 @@ var runNoticiasTexto = function(){
         }
     }
 }
+
+function shareEmail(){
+    console.log("criar email não tab")
+
+    var dialog = document.getElementById('email-dialog');
+    dialog.show();
+
+}
     
 
-// function shareEmail(){
+const sendEmailBtn = function (){
 
-//     var dialog = document.getElementById('em-dialog');
+    sendEmail(noticias[noticiaIndex].id, noticias[noticiaIndex].tipo);
 
-//     if (dialog) {
-//         dialog.show();
-//     } else {
-//         ons.createElement('alert-dialog.html', { append: true })
-//         .then(function(dialog) {
-//             dialog.show();
-//         });
-//     }
-// }
+}
 
 function shareFacebook(){
     console.log("Sharing Facebook -- " + shareLink);

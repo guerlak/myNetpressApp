@@ -3,21 +3,29 @@
 <html>
 
   <head>
+
       <meta charset="utf-8">
       <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *; img-src 'self' data: content:;"> -->
       <meta http-equiv="Content-Security-Policy" content="default-src * data: gap: https://ssl.gstatic.com; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'"> 
       <meta name="viewport" content="height=device-height, initial-scale=1.0, viewport-fit=cover">
   
-      <link rel="stylesheet" href="lib/css/onsen-css-components.min.css">
-      <link rel="stylesheet" href="lib/css/onsenui.min.css">
+      <meta name="format-detection" content="telephone=no" />
+
+      <link rel="stylesheet" href="lib/onsen-ui/css/onsen-css-components.css">
+      <link rel="stylesheet" href="lib/onsen-ui/css/onsenui.css">
       <link rel="stylesheet" href="css/index.css">
+      <!-- <link rel="stylesheet" href="https://unpkg.com/onsenui/css/onsenui.css">
+      <link rel="stylesheet" href="https://unpkg.com/onsenui/css/onsen-css-components.min.css"> -->
+    
+      <script src="lib/onsen-ui/js/onsenui.js"></script>
+      <script src="lib/jquery.min.js"></script>
+      <!-- <script src="https://unpkg.com/onsenui/js/onsenui.min.js"></script> -->
 
-      <script src="lib/js/onsenui.min.js"></script>
-      <script src="lib/js/jquery.min.js"></script>
-
+      <script src="cordova.js"></script>
+      <script src="js/index.js"></script>
    
-      
       <title>MyNetpress App</title>
+
   </head>
 
   <body>
@@ -27,11 +35,11 @@
         <ons-page>
           <ons-list>
 
-            <ons-list-item style="background-color: #4b76c1">
+            <ons-list-item style="background-color: #1386af">
               <img width='100px' src="img/manchete.png">
             </ons-list-item>
 
-            <ons-list-item style="color: #4b76c1" onclick="fn.load('user-info.html');" tappable>
+            <ons-list-item style="color: #1386af" onclick="fn.load('user-info.html');" tappable>
               
                   <div class="center">
                       <div id="nome-utilizador"></div>
@@ -41,7 +49,7 @@
                     </div>
             </ons-list-item>
 
-            <ons-list-header style="background-color: #4b76c1; color: #fff">NOTÍCIAS</ons-list-header>
+            <ons-list-header style="background-color: #1386af; color: #fff">NOTÍCIAS</ons-list-header>
 
             <ons-list-item onclick="fn.load('noticias.html');" tappable > 
               Notícias do dia
@@ -60,7 +68,7 @@
               Teste home
             </ons-list-item> -->
             
-            <ons-list-header style="background-color: #4b76c1; color: #fff">IMPRENSA ESCRITA</ons-list-header>
+            <ons-list-header style="background-color: #1386af; color: #fff">IMPRENSA ESCRITA</ons-list-header>
             <ons-list-item onclick="fn.load('imp-nacional.html');" tappable>
               Imprensa Nacional
             </ons-list-item>
@@ -70,7 +78,7 @@
             <ons-list-item onclick="fn.load('imp-regional.html');" tappable>
               Imprensa Regional
             </ons-list-item>
-            <ons-list-header style="background-color: #4b76c1; color: #fff">IMPRENSA ONLINE</ons-list-header>
+            <ons-list-header style="background-color: #1386af; color: #fff">IMPRENSA ONLINE</ons-list-header>
 
             <ons-list-item onclick="fn.load('redes-sociais.html')" tappable>
               Social Media
@@ -81,7 +89,7 @@
             <ons-list-item onclick="fn.load('blogs.html')" tappable>
                 Blogs
             </ons-list-item>
-            <ons-list-header style="background-color: #4b76c1; color: #fff">AUDIOVISUAIS</ons-list-header>
+            <ons-list-header style="background-color: #1386af; color: #fff">AUDIOVISUAIS</ons-list-header>
             <ons-list-item onclick="fn.load('televisao.html')" tappable>
                 Televisão
             </ons-list-item>
@@ -105,6 +113,90 @@
       </ons-splitter-content> 
 
       </ons-splitter>
+
+
+      <template id="tab-bar-home.html">
+        <ons-page>
+
+            <ons-toolbar>
+                <div class="left">
+                  <ons-toolbar-button onclick="fn.open()">
+                    <ons-icon icon="md-menu"></ons-icon>
+                  </ons-toolbar-button>
+                </div>
+                <div class="center">
+                  Manchetes do dia
+                </div>
+              </ons-toolbar> 
+
+            <ons-tabbar swipeable position="auto">
+              <ons-tab page="tab1.html" label="Manchetes" icon="fa-file" active>
+              </ons-tab>
+              <ons-tab page="tab2.html" label="Noticias" icon="fa-list-ul">
+              </ons-tab>
+            </ons-tabbar>
+        </ons-page>
+      </template>
+
+
+      <template id="tab1.html">
+        <ons-page id="Tab1">
+
+            <ons-pull-hook id="pull-hook-manchetes-tab">
+                Pull to refresh
+            </ons-pull-hook>
+            <div class="loading"></div>
+
+          <div id="manchetes-images-tab"></div>
+
+          <script src="js/manchetes-tab.js"></script>
+      
+        </ons-page>
+      </template>
+      
+
+      <template id="tab2.html">
+          <ons-page id="Tab2">
+
+          <ons-pull-hook id="pull-hook-noticias-tab">
+              Pull to refresh
+          </ons-pull-hook>
+            
+          <div id="progress_bar"></div>
+          <div id="sem-noticia-tab"></div>
+          <div id="erro-noticia-tab"></div>
+
+          <ons-list>
+            <ons-lazy-repeat id="noticias-list-tab"></ons-lazy-repeat>
+          </ons-list>
+          
+              <script src="js/noticias-dia-tab.js"></script>
+
+          </ons-page>
+      </template>
+
+
+      <template id="manchetes.html">
+        <ons-page id="manchetes">
+          <ons-toolbar>
+            <div class="left">
+              <ons-toolbar-button onclick="myNavigator.pushPage('login.html');menu.close();">
+                <strong>Login</strong>
+              </ons-toolbar-button>
+            </div>
+            <div class="center">
+              Manchetes do dia
+            </div>
+          </ons-toolbar> 
+
+          <div id="manchetes-images"></div>
+
+          <div id="sem-manchete"></div>
+
+          <script src="js/manchetes.js">
+          </script>
+        </ons-page>
+      </template>
 
 
       <template id="noticia-texto.html">
@@ -145,6 +237,22 @@
                   <ons-icon onclick="shareEmail();" icon="md-email" class="icons-share"></ons-icon>
                 </ons-speed-dial-item>
               </ons-speed-dial>
+
+
+              <ons-alert-dialog id="email-dialog" modifier="rowfooter">
+                <div class="alert-dialog-title">Compartilhar por email</div>
+                <div class="alert-dialog-content">
+                  
+                  <ons-input type="text" placeholder="nome" id="nameShare"></ons-input>
+                  <ons-input type="email" placeholder="e-mail" id="emailShare"></ons-input>
+                  <ons-input type="text" placeholder="mensagem" id="messageShare"></ons-input>
+              
+                </div>
+                <div class="alert-dialog-footer">
+                    <ons-alert-dialog-button onclick="sendEmailBtn()">Enviar</ons-alert-dialog-button>
+                    <ons-alert-dialog-button onclick="hideAlertDialog()">Cancelar</ons-alert-dialog-button>
+                </div>
+              </ons-alert-dialog>
         
         
             <script>
@@ -192,9 +300,28 @@
                   <ons-icon onclick="shareFacebook();" icon="md-facebook" class="icons-share"></ons-icon>
                 </ons-speed-dial-item>
                 <ons-speed-dial-item style="background-color: white">
-                  <ons-icon onclick="shareEmail();" icon="md-email" class="icons-share"></ons-icon>
+                  <ons-icon onclick="shareEmailTab();" icon="md-email" class="icons-share"></ons-icon>
                 </ons-speed-dial-item>
               </ons-speed-dial>
+
+
+
+
+              <ons-alert-dialog id="email-dialog-tab" modifier="rowfooter">
+                <div class="alert-dialog-title">Compartilhar por email</div>
+                <div class="alert-dialog-content">
+                  
+                  <ons-input type="text" placeholder="nome" id="nameShare"></ons-input>
+                  <ons-input type="text" placeholder="e-mail" id="emailShare"></ons-input>
+                  <ons-input type="text" placeholder="mensagem" id="messageShare"></ons-input>
+              
+                </div>
+                <div class="alert-dialog-footer">
+                    <ons-alert-dialog-button onclick="sendEmailBtnTab()">Enviar</ons-alert-dialog-button>
+                  <ons-alert-dialog-button onclick="hideAlertDialog()">Cancelar</ons-alert-dialog-button>
+                  
+                </div>
+              </ons-alert-dialog>
         
         
             <script>
@@ -782,127 +909,11 @@
         
           </ons-page>
         </template>
-          
-
-      <template id="tab-bar-home.html">
-        <ons-page>
-
-            <ons-toolbar>
-                <div class="left">
-                  <ons-toolbar-button onclick="fn.open()">
-                    <ons-icon icon="md-menu"></ons-icon>
-                  </ons-toolbar-button>
-                </div>
-                <div class="center">
-                  Manchetes do dia
-                </div>
-              </ons-toolbar> 
-
-            <ons-tabbar swipeable position="auto">
-              <ons-tab page="tab1.html" label="Manchetes" icon="fa-file" active>
-              </ons-tab>
-              <ons-tab page="tab2.html" label="Noticias" icon="fa-list-ul">
-              </ons-tab>
-            </ons-tabbar>
-
-            <script>
-              ons.getScriptPage().onInit = function() {
-                loadUser();
-              }
-          </script>
-
-        </ons-page>
-      </template>
 
 
-      <template id="tab1.html">
-        <ons-page id="Tab1">
-
-            <ons-pull-hook id="pull-hook-manchetes-tab">
-                Pull to refresh
-              </ons-pull-hook>
-
-          <div id="manchetes-images-tab"></div>
-
-          <script src="js/manchetes-tab.js"></script>
-      
-        </ons-page>
-      </template>
-      
-
-      <template id="tab2.html">
-
-          <ons-page id="Tab2">
-
-          <ons-pull-hook id="pull-hook-noticias-tab">
-              Pull to refresh
-          </ons-pull-hook>
-            
-          <div id="progress_bar"></div>
-
-          <div id="sem-noticia-tab"></div>
-          <div id="erro-noticia-tab"></div>
-
-            
-          <ons-list>
-            <ons-lazy-repeat id="noticias-list-tab"></ons-lazy-repeat>
-          </ons-list>
-
-                      
-          <script>
-              ons.getScriptPage().onInit = function() {
-                loadNoticiasTab();
-              }
-          </script>
-
-          </ons-page>
-      </template>
-
-
-      <template id="manchetes.html">
-        <ons-page id="manchetes">
-          <ons-toolbar>
-            <div class="left">
-              <ons-toolbar-button onclick="myNavigator.pushPage('login.html');menu.close();">
-                <strong>Login</strong>
-              </ons-toolbar-button>
-            </div>
-            <div class="center">
-              Manchetes do dia
-            </div>
-          </ons-toolbar> 
-
-          <div id="manchetes-images"></div>
-
-          <div id="sem-manchete"></div>
-
-          <script src="js/manchetes.js"></script>
-        </ons-page>
-      </template>
-
-
-      <template id="alert-dialog.html">
-
-        <ons-alert-dialog id="my-alert-dialog" modifier="rowfooter">
-          <div class="alert-dialog-title">Compartilhar por email</div>
-          <div class="alert-dialog-content">
-            
-            <ons-input type="text" placeholder="nome" id="nameShare"></ons-input>
-            <ons-input type="text" placeholder="e-mail" id="emailShare"></ons-input>
-            <ons-input type="text" placeholder="mensagem" id="messageShare"></ons-input>
-        
-          </div>
-          <div class="alert-dialog-footer">
-            <ons-alert-dialog-button onclick="hideAlertDialog()">Cancelar</ons-alert-dialog-button>
-            <ons-alert-dialog-button onclick="sendEmailBtn()">Enviar</ons-alert-dialog-button>
-          </div>
-        </ons-alert-dialog>
-
-      </template>
-
+    
 
       <ons-modal direction="up"><div class="progress-bar progress-bar--indeterminate"></div></ons-modal>
-
 
       <div id="manchete-image-zoom"></div>
 
@@ -914,11 +925,9 @@
       </div>
     </ons-modal> -->
 
-    <script src="cordova.js"></script>
-    <script src="js/index.js"></script>
+    <script src="js/login.js"></script>
     <script src="js/listFunction.js"></script>
     <script src="js/noticias-dia.js"></script>
-    <script src="js/noticias-dia-tab.js"></script>
     <script src="js/noticias-dia-tema.js"></script>
     <script src="js/imp-nacional.js"></script>
     <script src="js/imp-regional.js"></script>
@@ -929,12 +938,12 @@
     <script src="js/blogs.js"></script>
     <script src="js/social.js"></script>
     <script src="js/pesquisa.js"></script> 
-    <script src="js/login.js"></script>
     <script src="js/notifications.js"></script>
     <script src="js/user-info.js"></script>
     <script src="js/noticia-texto.js"></script>
     <script src="js/noticia-texto-tab.js"></script>
-    <script src="js/myNetpress.js"></script>
+    <script src="js/mynetpress.js"></script>
+    
 
   </body>
 

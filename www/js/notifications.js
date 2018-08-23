@@ -1,7 +1,7 @@
-const toggleNotification = function(){
+var toggleNotification = function(){
 
-    const notification = document.getElementById('check-notification');
-    let url;
+    var notification = document.getElementById('check-notification');
+    var url;
     console.log(notification.checked);
 
     if(!notification.checked){
@@ -13,14 +13,15 @@ const toggleNotification = function(){
         url = 'https://services.manchete.pt:8002/Clientes.asmx/ActivateNotifications?user=' + login + '&password=' + pass + '&callback=""&deviceType='+ device.platform +'&deviceToken='+registrationId+'&activate=1';
     }
 
-    let request = new XMLHttpRequest();
+    
+    var request = new XMLHttpRequest();
         request.open('GET', url);
         request.responseType = 'text';
         request.send();
 }
 
 
-const removeNotifications = function(){
+var removeNotifications = function(){
 
     var url = 'https://services.manchete.pt:8002/Clientes.asmx/DeleteNotifications?user=' + login + '&password=' + pass + '&callback=&deviceType=' + cordova.platformId + '&deviceToken='+registrationId;
             
@@ -49,8 +50,8 @@ const removeNotifications = function(){
 
 var isNotificationChecked = function(){
 
-    let getStateNotificationURL = 'https://services.manchete.pt:8002/Clientes.asmx/StateNotifications?user=' + login + '&password=' + pass + '&callback=""&deviceType='+ device.platform +'&deviceToken='+registrationId;
-    let request = new XMLHttpRequest();
+    var getStateNotificationURL = 'https://services.manchete.pt:8002/Clientes.asmx/StateNotifications?user=' + login + '&password=' + pass + '&callback=""&deviceType='+ device.platform +'&deviceToken='+registrationId;
+    var request = new XMLHttpRequest();
 
     request.open('GET', getStateNotificationURL);
     request.responseType = 'text';
@@ -62,7 +63,7 @@ var isNotificationChecked = function(){
         stateText = stateText.substring(3, stateText.length - 1);
 
         var state = JSON.parse(stateText);
-        const n = document.getElementById('notification-state');
+        var n = document.getElementById('notification-state');
 
 
         if(state.estadoNot === "true"){

@@ -8,11 +8,23 @@ var app = {
     // deviceready Event Handler
     // Bind any cordova events here. Common events are:
     // 'pause', 'resume', etc.
+    
     onDeviceReady: function() {
 
         this.receivedEvent('deviceready');
 
+        // checkConnection();
+
         console.log("running index.js")
+
+        // var notificationOpenedCallback = function(jsonData) {
+        //     console.log('notificationOpenedCallback: ' + JSON.stringify(jsonData));
+        //   };
+        
+        //   window.plugins.OneSignal
+        //     .startInit("9c2d242d-06ea-4995-bdb5-b7f51a13057c")
+        //     .handleNotificationOpened(notificationOpenedCallback)
+        //     .endInit();
 
         const push = PushNotification.init({
             android: {
@@ -25,9 +37,7 @@ var app = {
                 badge: "true",
                 sound: "true"
             },
-
             windows: {}
-            
         });
 
         push.on('registration', function(data) {
@@ -57,6 +67,8 @@ var app = {
               'Ok'                  // buttonName
             );
           });
+
+
 
         if (ons.platform.isIPhoneX()) { // Utility function
             // Add empty attribute to the <html> element

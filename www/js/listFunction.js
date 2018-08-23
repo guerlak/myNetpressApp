@@ -2,6 +2,8 @@ var noticias, noticiaIndex;
 
 var showList = function(referencia){
 
+    document.addEventListener('deviceready', checkConnection, false);
+
     console.log("List FN")
 
     modal.show();
@@ -108,7 +110,6 @@ const ajaxNoticias = {
         });
 
         noticiasList.innerHTML = html;
-
         
       }
     }

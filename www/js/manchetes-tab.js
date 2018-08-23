@@ -1,17 +1,22 @@
+
+ if(!user.authenticated){
+    myNavigator.resetToPage('manchetes.html')
+    alert("User not auth in loadUser fn")
+
+} else {
+
+showLoading();
+
 var loginFree = "manchetemobile";
 var passFree = "mancheteqwerty";
 var requestURL = 'https://services.manchete.pt:8001/Manchetes.asmx/getCoversPress?user=' + loginFree + '&password=' + passFree + '&callback=';
-
-    modal.show();
 
 var images = document.querySelector('#manchetes-images-tab');
 var mancheteImgZoom = document.querySelector('#manchete-image-zoom');
 
     var loadManchetesTab =  function(){
 
-        console.log("running manchetes tab")
-
-        let request = new XMLHttpRequest();
+        var request = new XMLHttpRequest();
 
             request.open('GET', requestURL);
             request.responseType = 'text';
@@ -34,15 +39,16 @@ var mancheteImgZoom = document.querySelector('#manchete-image-zoom');
                         mancheteText = mancheteText.substring(1, mancheteText.length - 1);
                     var manchetes = JSON.parse(mancheteText);
                     modal.hide();
+                    hideLoading();
                     populate(manchetes);
-                
+
                 }
             }
             request.send();
     }
 
     loadManchetesTab();
-        
+    
     function populate(jsonObj) {
 
         var html = '';
@@ -100,7 +106,5 @@ var mancheteImgZoom = document.querySelector('#manchete-image-zoom');
     pullHook.onAction = function(done) {
         setTimeout(done, 2000);
     }
-
-
-
+}
 
