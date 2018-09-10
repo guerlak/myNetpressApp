@@ -356,7 +356,7 @@
 
         <script>
           ons.getScriptPage().onInit = function() {
-            runNoticiasDia();
+            showList("");
           };
         </script>
 
@@ -646,33 +646,32 @@
 
     <template id="imp-nacional.html">
 
-    <ons-page id="imp-nacional" >
-        <ons-toolbar>
-          <div class="left">
-            <ons-back-button>Back</ons-back-button>
-        </div>
-          <div class="center">
-            Imprensa Nacional
+      <ons-page id="imp-nacional" >
+          <ons-toolbar>
+            <div class="left">
+              <ons-back-button>Back</ons-back-button>
           </div>
-        </ons-toolbar>
-        <div id="progress_bar"></div>
+            <div class="center">
+              Imprensa Nacional
+            </div>
+          </ons-toolbar>
+          <div id="progress_bar"></div>
 
-        <ons-pull-hook id="pull-hook-noticia">
-          Pull to refresh
-        </ons-pull-hook>
+          <ons-pull-hook id="pull-hook-noticia">
+            Pull to refresh
+          </ons-pull-hook>
 
-        <ons-list id="noticias-list"></ons-list>
+          <ons-list id="noticias-list"></ons-list>
 
-        <div id="sem-noticia"></div>
+          <div id="sem-noticia"></div>
 
-        <script>
-            ons.getScriptPage().onInit = function() {
-              console.log("running imp nacional");
-              runImpNacional();
-            }
-        </script>
+          <script>
+              ons.getScriptPage().onInit = function() {
+                showList("jaa");
+              }
+          </script>
 
-    </ons-page>
+      </ons-page>
 
     </template>
 
@@ -700,8 +699,7 @@
         
             <script>
                 ons.getScriptPage().onInit = function() {
-
-                  runImpRegional();
+                  showList("jb");
                 }
             </script>
         
@@ -731,12 +729,9 @@
         
             <ons-list id="noticias-list"></ons-list>
 
-
-        
             <script>
                 ons.getScriptPage().onInit = function() {
-              
-                  showList("jaa");
+                  showList("je");
                 }
             </script>
         
@@ -764,7 +759,7 @@
       
           <script>
               ons.getScriptPage().onInit = function() {
-                runRedesSociais();
+                showList("soc");
               }
           </script>
           
@@ -796,7 +791,7 @@
       
           <script>
               ons.getScriptPage().onInit = function() {
-                runInternet();
+                showList("i");
               }
           </script>
 
@@ -829,7 +824,7 @@
         
             <script>
                 ons.getScriptPage().onInit = function() {
-                  runBlogs();
+                  showList("bg");
                 }
             </script>
       
@@ -861,7 +856,7 @@
         
             <script>
                 ons.getScriptPage().onInit = function() {
-                  runTelevisao();
+                  showList("t");
                 }
             </script>
       
@@ -917,23 +912,13 @@
 
     <script src="js/login.js"></script>
     <script src="js/listFunction.js"></script>
-    <script src="js/noticias-dia.js"></script>
     <script src="js/noticias-dia-tema.js"></script>
-    <script src="js/imp-nacional.js"></script>
-    <script src="js/imp-regional.js"></script>
-    <script src="js/imp-internacional.js"></script>
-    <script src="js/radio.js"></script>
-    <script src="js/televisao.js"></script>
-    <script src="js/internet.js"></script>
-    <script src="js/blogs.js"></script>
-    <script src="js/social.js"></script>
     <script src="js/pesquisa.js"></script> 
     <script src="js/notifications.js"></script>
     <script src="js/user-info.js"></script>
     <script src="js/noticia-texto.js"></script>
     <script src="js/noticia-texto-tab.js"></script>
-    <script src="js/mynetpress.js"></script>
-    
+    <script src="js/mynetpressServices.js"></script>
 
   </body>
 

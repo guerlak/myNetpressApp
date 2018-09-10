@@ -7,14 +7,12 @@ var storage = window.localStorage;
     login = storage.getItem('userLogin');
     pass = storage.getItem('userPass');
 
-
 $(document).on('pagecontainerbeforeshow', function (evt, data) {
 
     if (login == null || pass == null) {
         $("body").pagecontainer("change", "login.html", { transition: "slide" });
     }
 });
-
 
 
 $(document).on('pageshow', '#favoritos', function () {
@@ -76,8 +74,6 @@ $(document).on('pagebeforeshow', '#noticia-texto-page', function () {
 
     var id = noticias[noticiaID].id;
    
-    //console.log("ID texto: " + id);
-
     var url = 'https://services.manchete.pt:8002/Clientes.asmx/getTextbyIdNew?user=' + login + '&password=' + pass + '&callback=&id=' + id;
 
     $.ajax({
@@ -95,7 +91,6 @@ $(document).on('pagebeforeshow', '#noticia-texto-page', function () {
     });
 
     var ajax2 = {
-
         parseJSON: function (result) {
 
             result = result.substring(1, result.length - 1);
@@ -107,9 +102,6 @@ $(document).on('pagebeforeshow', '#noticia-texto-page', function () {
         }
     }
 });
-
-
-
 
 $(document).on('tap', '#noticias-list li a', function () {
 

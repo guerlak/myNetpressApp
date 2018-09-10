@@ -47,7 +47,6 @@ window.fn.load = function(page) {
 
 var authUser =  function(l, p){
 
-    
     storage.setItem("userLogin", l);
     storage.setItem("userPass", p);
     login = l;
@@ -57,7 +56,6 @@ var authUser =  function(l, p){
     ons.notification.toast('Bem vindo a Manchete', {
         timeout: 3000
     });
-    
     myNavigator.resetToPage("tab-bar-home.html");
 }
 
@@ -196,10 +194,7 @@ function checkConnection() {
     }
 }
 
-
-
 loadUser(login, pass);
-
 
 document.addEventListener('deviceready', checkConnection, false);
 
