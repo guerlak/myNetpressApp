@@ -1,11 +1,6 @@
 
 var runNoticiasTemaDia = function(){
 
-    if(!checkAuth()){
-        console.log("checkAuth false")
-        return;
-    };
-
     modal.show();
 
     var url2 = 'https://services.manchete.pt:8002/Clientes.asmx/getTemasbyUser?user=' + login + '&password=' + pass + '&callback=';

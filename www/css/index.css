@@ -1,10 +1,17 @@
 
 body{
     background-color: #ffffff;
-    
-        padding-top: constant(safe-area-inset-top);
-        padding-top: env(safe-area-inset-top);
-    
+    padding-top: constant(safe-area-inset-top);
+    padding-top: env(safe-area-inset-top);
+}
+
+:root {
+    --background-color: #efeff4;
+    --text-color: #ee5488;
+    --sub-text-color: #999;
+    --highlight-color: #0076ff;
+    --second-highlight-color: #25a6d9;
+    --border-color: #ccc;
 }
 
 #user-info-logo{
@@ -16,6 +23,12 @@ body{
 } */
 
 #texto-noticia{
+    padding-left: 4%;
+    padding-right: 4%;
+    margin-bottom: 90px;
+}
+
+#texto-noticia-tab{
     padding-left: 4%;
     padding-right: 4%;
     margin-bottom: 90px;
@@ -116,17 +129,33 @@ ons-progress-circular{
    color: rgb(199, 199, 199);
 }
 
+#error-request{
+    text-align: center;
+    color: #a1a1a1;
+    margin: 2%;
+    margin-top: 40%;
+}
+
 @media only screen and (min-width: 768px) {
     .mancheteImgs{
-        height: 50em;
+        height: 25em;
     }
 
     #manchetes-images div {
-        margin: 1em;
+        margin: 10em;
         min-height: 32em;
     }
 
     .dialog{
-        min-width: 30%;
+        min-width: 80%;
+    }
+
+    #zoom-manchete-img{
+        width:100%; 
+        height:100vh;
+    }
+
+    #manchetes-images-tab div{
+        margin: 23px;
     }
 }

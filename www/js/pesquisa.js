@@ -4,25 +4,20 @@ var runPesquisa = function (){
 
     modal.show();
 
-    if(!checkAuth()){
-        console.log("checkAuth false")
-        return;
-    };
-
         var urlMeios = 'https://services.manchete.pt:8002/Clientes.asmx/getClippingbyUser?user=' + login + '&password=' + pass + '&callback=';
 
-        $.ajax({
-            url: urlMeios,
-            dataType: "text",
-            async: true,
-            success: function (result) {
-                ajaxMeios.parseJSON(result);
-                modal.hide();
-            },
-            error: function (request, error) {
-                alert('Erro ao buscar dados do servidor, tente mais tarde.');
-            }
-        });
+            $.ajax({
+                url: urlMeios,
+                dataType: "text",
+                async: true,
+                success: function (result) {
+                    ajaxMeios.parseJSON(result);
+                    modal.hide();
+                },
+                error: function (request, error) {
+                    alert('Erro ao buscar dados do servidor, tente mais tarde.');
+                }
+            });
             
         var ajaxMeios = {
 
@@ -33,7 +28,7 @@ var runPesquisa = function (){
                 var parsed = JSON.parse(result);
                 var selectDiv = document.querySelector('#select_meios');
                 var selectHTML = '<ons-select id="meio" onchange="runAjaxPublicacao()">';
-                    selectHTML += '<option value="" disabled selected>Escolha o meio</option>'
+                    selectHTML += '<option value="" disabled selected>Escolha o meio</option>';
                 for (i = 0; i < parsed.length; i++) {
                     selectHTML += "<option value='" + parsed[i].referencia3 + "'>" + parsed[i].clipping + "</option>";
                 }
@@ -50,35 +45,32 @@ var runPesquisa = function (){
             dataType: "text",
             async: true,
             success: function (result) {
-                ajaxTema.parseJSON(result);
-           
+                ajaxTema.parseJSON(result)
             },
             error: function (request, error) {
                 alert('Network error has occurred please try again!');
             }
         });
 
-        var ajaxTema = {
+    var ajaxTema = {
 
-            parseJSON: function (result) {
+        parseJSON: function (result) {
 
-                result = result.substring(1, result.length - 1);
-                
-                var parsed = JSON.parse(result);
+            var result = result.substring(1, result.length - 1);
+            
+            var parsed = JSON.parse(result);
 
-                console.log(parsed[0]);
+            var selectDiv = document.querySelector('#select_temas');
+            var selectHTML = '<ons-select id="tema" class="select">'
+                selectHTML += '<option value="" disabled selected>Escolha o tema</option>'
 
-                var selectDiv = document.querySelector('#select_temas');
-                var selectHTML = '<ons-select id="tema" class="select">'
-                    selectHTML += '<option value="" disabled selected>Escolha o tema</option>'
-
-                for (i = 0; i < parsed.length; i++) {
-                    selectHTML += "<option value='" + parsed[i].referencia4+ "'>" + parsed[i].tema + "</option>";
-                }
-                selectHTML += "</ons-select>";
-                selectDiv.innerHTML = selectHTML;
-                
+            for (i = 0; i < parsed.length; i++) {
+                selectHTML += "<option value='" + parsed[i].referencia4+ "'>" + parsed[i].tema + "</option>";
             }
+            selectHTML += "</ons-select>";
+            selectDiv.innerHTML = selectHTML;
+            
+        }
         }
     }
 
@@ -110,6 +102,7 @@ var runPesquisa = function (){
                 var parsed = JSON.parse(result);
                 var selectDiv = document.querySelector('#select_publicacao');
                 var selectHTML = '<ons-select id="publicacao" class="select">';
+                 
 
                     for (i = 0; i < parsed.length; i++) {
                         selectHTML += "<option value='" + parsed[i].fonte + "'>" + parsed[i].fonte + "</option>";
@@ -137,7 +130,7 @@ var runSearch = function(){
 
         if(dataInicio == "" || dataFim == "" ){
             ons.notification.toast('Preencha as datas para a pesquisa', {
-                timeout: 1000
+                timeout: 3000
               });
         } else {
 
@@ -146,20 +139,21 @@ var runSearch = function(){
         if(or.checked){
             operador = "or";
         }
-
         if(and.checked){
             operador = "and";
         }
 
-    var url = 'https://services.manchete.pt:8002/Clientes.asmx/getSearch?user='+login+'&passssord='+ pass +'&callback=&datainicio='+dataInicio+'&datafim='+dataFim+'&tipo='+tipo+'&tema='+tema+'&publicacao='+publicacao+'&palavra1='+palavra1+'&palavra2='+palavra2+'&operador='+operador;
-
+        
+    var url = 'https://services.manchete.pt:8002/Clientes.asmx/getSearch?user='+login+'&password='+ pass +'&callback=&datainicio='+dataInicio+'&datafim='+dataFim+'&tipo='+tipo+'&tema='+tema+'&publicacao='+publicacao+'&palavra1='+palavra1+'&palavra2='+palavra2+'&operador='+operador;
+    var urlEncoded = encodeURI(url);
     
+
     $.ajax({
-        url: url,
+        url: urlEncoded,
         dataType: "text",
         async: true,
         success: function (result) {
-            ajax.parseJSONP(result);
+            ajaxPesquisa.parseJSONP(result);
             modal.hide();
         },
         error: function (jqXHR, textStatus, errorThrown) {
@@ -170,24 +164,24 @@ var runSearch = function(){
     });
     
 
-    var ajax = {
+    var ajaxPesquisa = {
     
         parseJSONP: function (result) {
 
             result = result.substring(1, result.length - 1);
 
-            var parsed = JSON.parse(result);
+            var noticiasParsed = JSON.parse(result);
 
-            noticias = parsed;
+            noticias = noticiasParsed;
 
             if (noticias < 1) {
                 ons.notification.alert('Não há noticias com esses parametros de pesquisa');
-            }
-    
+            } else {
+
             var html = '';
         
                 $.each(noticias, function (index, item) {
-                    html += "<ons-list-item modifier='chevron' tappable id=" + index + " class='list-item' onclick="+'fn.load("noticia-texto.html")'+"><div class='center'><span class='ons-list__title'>" + item.titulo + "</span><span class='list-item__subtitle'>" + item.publicacao + '</span></div><div class="right">' + item.hora_insercao + '</div></ons-list-item>';
+                    html += "<ons-list-item modifier='chevron' tappable id=" + index + " class='list-item' onclick="+'goToNewsText(this)'+"><div class='center'><span class='ons-list__title'>" + item.titulo + "</span><span class='list-item__subtitle'>" + item.publicacao + '</span></div><div class="right">' + item.hora_insercao + '</div></ons-list-item>';
                 
                     addEventListener('click', function(e){
                         noticiaIndex = e.target.parentNode.parentNode.id;
@@ -195,20 +189,10 @@ var runSearch = function(){
                 
                 });
             
-            var noticiasList = document.getElementById('noticias-list');
+                var noticiasList = document.getElementById('noticias-list');
 
-            // document.getElementById('searchDiv').style.display = 'none';
-
-            noticiasList.innerHTML = html;
-    
-            // els = document.querySelectorAll(".list-item");
-    
-            // els.forEach(function (item) {
-            //     item.addEventListener("click", function (e) {
-            //         console.log("Parent node id:" + e.target.parentNode.id);
-            //         noticiaID = e.target.parentNode.parentNode.id;
-            //     });
-            // });
+                noticiasList.innerHTML = html;
+            }
 
         }
     }

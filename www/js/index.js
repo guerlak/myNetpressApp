@@ -1,5 +1,5 @@
-
 var app = {
+    
     // Application Constructor
     initialize: function() {
         document.addEventListener('deviceready', this.onDeviceReady.bind(this), false);
@@ -8,9 +8,23 @@ var app = {
     // deviceready Event Handler
     // Bind any cordova events here. Common events are:
     // 'pause', 'resume', etc.
+    
     onDeviceReady: function() {
 
         this.receivedEvent('deviceready');
+
+        // checkConnection();
+
+        console.log("running index.js")
+
+        // var notificationOpenedCallback = function(jsonData) {
+        //     console.log('notificationOpenedCallback: ' + JSON.stringify(jsonData));
+        //   };
+        
+        //   window.plugins.OneSignal
+        //     .startInit("9c2d242d-06ea-4995-bdb5-b7f51a13057c")
+        //     .handleNotificationOpened(notificationOpenedCallback)
+        //     .endInit();
 
         const push = PushNotification.init({
             android: {
@@ -29,6 +43,7 @@ var app = {
         push.on('registration', function(data) {
       
             var oldRegId = localStorage.getItem('registrationId');
+
             console.log("Registration ID: "+ data.registrationId);
      
             if (oldRegId !== data.registrationId) {
@@ -53,15 +68,18 @@ var app = {
             );
           });
 
+
+
         if (ons.platform.isIPhoneX()) { // Utility function
             // Add empty attribute to the <html> element
             document.documentElement.setAttribute('onsflag-iphonex-portrait', '');
           }
+
+       
     },
     // Update DOM on a Received Event
     receivedEvent: function(id) {
 
     }
-};
-
+}
 app.initialize();

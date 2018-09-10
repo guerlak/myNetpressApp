@@ -1,34 +1,48 @@
-﻿var loginFree = "manchetemobile";
+﻿if(user.authenticated){
+
+    myNavigator.resetToPage('tab-bar-home.html')
+    console.log("User authenticated on manchetes")
+
+} else {
+
+var loginFree = "manchetemobile";
 var passFree = "mancheteqwerty";
 
 var requestURL = 'https://services.manchete.pt:8001/Manchetes.asmx/getCoversPress?user=' + loginFree + '&password=' + passFree + '&callback=';
 
-modal.show();
+// modal.show();
  
 var images = document.querySelector('#manchetes-images');
 var mancheteImgZoom = document.querySelector('#manchete-image-zoom');
 var request = new XMLHttpRequest();
 
-request.open('GET', requestURL);
-request.responseType = 'text';
-request.send();
 
-request.onload = function () {
+    request.open('GET', requestURL);
+    request.responseType = 'text';
+ 
+    request.onload = function () {
 
-    if(request.status === 500){
-        images.innerHTML = "<p>Error</p>"
+        if(request.status === 500){  
+            console.log(request.status)
+            images.innerHTML = "<p id='no-internet'>Problemas de conexão a internet, verifique sua rede...</p>"
+            modal.hide();
+
+            }else{
+
+            var mancheteText = request.response;
+                mancheteText = mancheteText.substring(1, mancheteText.length - 1);
+            var manchetes = JSON.parse(mancheteText);
+
+            console.log(manchetes)
+
+            populate(manchetes);
+
+        }
     }
 
-    var mancheteText = request.response;
-        mancheteText = mancheteText.substring(1, mancheteText.length - 1);
-    var manchetes = JSON.parse(mancheteText);
-    
-    populate(manchetes);
-       
-}
+    request.send();
 
 
-    
 function populate(jsonObj) {
 
     var html = '';
@@ -40,7 +54,7 @@ function populate(jsonObj) {
             html += '<div><img class="mancheteImgs" alt="manchete do dia" width="100%" onClick="mancheteImgOpen()" src=' + jsonObj[i].link + ' /></div>';
         }
     }
-    modal.hide();
+    // modal.hide();
     images.innerHTML = html;
 
 }
@@ -63,16 +77,12 @@ function populate(jsonObj) {
 });
 
 
-
 var mancheteImgOpen = function(){
     const dialogHTML = "<ons-dialog id='zoom-manchete-img' cancelable><div style='text-align: center; padding: 5px;'><img width='100%' src='" + event.target.src + "' />"+
                     "<p><ons-button onclick='hideDialog(\"zoom-manchete-img\")'>fechar</ons-button></p>"
-
-    console.log(event.target.src);
     mancheteImgZoom.innerHTML = dialogHTML;
     showTemplateDialog();
 }
-
 
 
 var showTemplateDialog = function() {
@@ -84,4 +94,6 @@ var showTemplateDialog = function() {
   var hideDialog = function(id) {
     document.getElementById(id)
       .hide();
-  };
+  }
+}
+
