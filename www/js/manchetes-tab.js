@@ -1,7 +1,6 @@
 
  if(!user.authenticated){
     myNavigator.resetToPage('manchetes.html')
-    alert("User not auth in loadUser fn")
 
 } else {
 
@@ -23,9 +22,9 @@ var mancheteImgZoom = document.querySelector('#manchete-image-zoom');
             request.onload = function () {  
 
                 if(request.status === 500){  
-                    console.log(request.status)
-                    images.innerHTML = "<p id='no-internet'>Parece que não há conexão a internet, verifique sua rede...</p>"
-                    modal.hide();
+                    
+                    images.innerHTML = "<p id='error-request'>Ocorreu um erro ao aceder os servidores da Manchete...</p>"
+                    hideLoading();
             
                 } else {
             
@@ -33,12 +32,12 @@ var mancheteImgZoom = document.querySelector('#manchete-image-zoom');
                         mancheteText = mancheteText.substring(1, mancheteText.length - 1);
                     var manchetes = JSON.parse(mancheteText);
             
-                    console.log(request.status)
+                    console.log("Response server:" + request.status)
 
                     var mancheteText = request.response;
                         mancheteText = mancheteText.substring(1, mancheteText.length - 1);
                     var manchetes = JSON.parse(mancheteText);
-                    modal.hide();
+                    
                     hideLoading();
                     populate(manchetes);
 

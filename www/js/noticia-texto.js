@@ -2,7 +2,7 @@ var runNoticiasTexto = function(){
     
     var link = "'" + noticias[noticiaIndex].link + "'";
     var id = noticias[noticiaIndex].id;
-    
+
     var url = 'https://services.manchete.pt:8002/Clientes.asmx/getTextbyIdNew?user=' + login + '&password=' + pass + '&callback=&id=' + id;
 
         $.ajax({
@@ -13,8 +13,8 @@ var runNoticiasTexto = function(){
                 ajaxNoticiaTexto.parseJSON(result);
                 modal.hide();
             },
-            error: function (request, error) {
-                alert('Network error has occurred please try again!');
+            error: function (error) {
+                alert('Network error has occurred please try again!', error);
                 modal.hide();
             }
         });
@@ -22,10 +22,12 @@ var runNoticiasTexto = function(){
     var ajaxNoticiaTexto = {
 
         parseJSON: function(result) {
+
             result = result.substring(1, result.length - 1);
+
             var textoNoticia = JSON.parse(result);
+
             var texto = document.getElementById('texto-noticia');
-            
             var sys = "'_system'"
             var ext = link.split(".");
             var extention = (ext[ext.length - 1]);
@@ -48,32 +50,25 @@ var runNoticiasTexto = function(){
                 }
 
             var browseBtns = document.querySelector('#browse-btns');
-
-            shareLink =  link.substring(9);
-
-            browseBtns.innerHTML = '<div style="text-align: right; padding: 10px;">'+icon;
-            // '<a onclick="guardarFavoritos()" id="guardar-favoritos"><button class="fab fab--mini" disabled><i class="zmdi zmdi-favorite"></i></button></div>';
-
-            texto.innerHTML = textoNoticia.texto;
+                shareLink =  link.substring(9);
+                browseBtns.innerHTML = '<div style="text-align: right; padding: 10px;">'+icon;
+                texto.innerHTML = textoNoticia.texto;
             
             var tituloTexto = document.getElementsByTagName('p')[0];
+                document.getElementById('titulo-noticia').appendChild(tituloTexto);
 
-            document.getElementById('titulo-noticia').appendChild(tituloTexto);
         }
     }
 }
-
+    
 function shareEmail(){
-    console.log("criar email não tab")
 
     var dialog = document.getElementById('email-dialog');
     dialog.show();
 
 }
     
-
 const sendEmailBtn = function (){
-
     sendEmail(noticias[noticiaIndex].id, noticias[noticiaIndex].tipo);
 
 }

@@ -19,6 +19,7 @@ var user = {
     authenticated: false
 }
 
+
 var login = storage.getItem('userLogin');
 var pass = storage.getItem('userPass');
 
@@ -74,25 +75,39 @@ var isAuthenticated = function(u){
 function loadUser(l, p){
 
     if(user.authenticated){
-      
+
         var requestURL = 'https://services.manchete.pt:8002/Clientes.asmx/AuthenticateLogin?user=' + l + '&password=' + p + '&callback=&deviceType=&deviceToken=';
         var request = new XMLHttpRequest();
+
+        console.log(requestURL)
 
         request.open('GET', requestURL);
         request.responseType = 'text';
         request.send();
 
-            request.onload = function () {
-                var userText = request.response;
-                    userText = userText.substring(1, userText.length - 1);
-                var data = JSON.parse(userText);
-                    document.querySelector('#nome-utilizador').innerHTML = "Olá, <b>"+data.nomecliente+"</b>";
+        request.onload = function () {
+
+            if(request.status === 500){
+
+                ons.notification.alert('Ocorreu um erro ao buscar o utilizador em nossos servidores', {
+                    title: "Server error"
+                });
                 
-            user.logo = data.logo;
-            user.email = data.mail;
-            user.nomecliente = data.nomecliente;
-            user.nomeacesso = data.nomeacesso;
+            }else{
+
+            var userText = request.response;
+                userText = userText.substring(1, userText.length - 1);
+            var data = JSON.parse(userText);
+                document.querySelector('#nome-utilizador').innerHTML = "Olá, <b>"+data.nomecliente+"</b>";
+                
+                user.logo = data.logo;
+                user.email = data.mail;
+                user.nomecliente = data.nomecliente;
+                user.nomeacesso = data.nomeacesso;
+
             }
+        }
+
     } else {
         console.log("User not auth in loadUser fn...")
     }
@@ -132,9 +147,10 @@ var sendEmail = function (newId, tipo){
     var emailDestination = document.getElementById("emailShare").value;
     var message = document.getElementById("messageShare").value;
 
+
     var reg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-    var emailRegex = reg.test(emailDestination);
+    var emailRegex = reg.test(emailDestination.toLowerCase().trim());
 
     if(!emailRegex){
 
@@ -160,9 +176,6 @@ var sendEmail = function (newId, tipo){
     }
 }
 
-
-loadUser(login, pass);
-
 function showLoading(){
     document.querySelector('.loading').innerHTML = '<div id="loading" class="progress-bar progress-bar--indeterminate">';   
 }
@@ -182,6 +195,11 @@ function checkConnection() {
     })
     }
 }
+
+
+
+loadUser(login, pass);
+
 
 document.addEventListener('deviceready', checkConnection, false);
 

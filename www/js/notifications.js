@@ -48,7 +48,7 @@ var removeNotifications = function(){
 }
 
 
-var isNotificationChecked = function(){
+function isNotificationChecked(){
 
     var getStateNotificationURL = 'https://services.manchete.pt:8002/Clientes.asmx/StateNotifications?user=' + login + '&password=' + pass + '&callback=""&deviceType='+ device.platform +'&deviceToken='+registrationId;
     var request = new XMLHttpRequest();
@@ -63,16 +63,17 @@ var isNotificationChecked = function(){
         stateText = stateText.substring(3, stateText.length - 1);
 
         var state = JSON.parse(stateText);
-        var n = document.getElementById('notification-state');
+        var n = document.getElementById('check-notification');
 
 
         if(state.estadoNot === "true"){
             console.log("returning true");
-            n.innerHTML = "<ons-list-item><div class='center'><b>Notificações</b></div><div class='right'><ons-switch id='check-notification' checked onchange='toggleNotification()'></ons-switch></div></ons-list-item>";
+            n.setAttribute("checked");
+            // n.innerHTML = "<ons-list-item><div class='center'><b>Notificações</b></div><div class='right'><ons-switch id='check-notification' checked onchange='toggleNotification()'></ons-switch></div></ons-list-item>";
             
         }else{
             console.log("returning false")
-            n.innerHTML = "<ons-list-item><div class='center'><b>Notificações</b></div><div class='right'><ons-switch id='check-notification' onchange='toggleNotification()'></ons-switch></div></ons-list-item>";
+            // n.innerHTML = "<ons-list-item><div class='center'><b>Notificações</b></div><div class='right'><ons-switch id='check-notification' onchange='toggleNotification()'></ons-switch></div></ons-list-item>";
         }
     }
 }

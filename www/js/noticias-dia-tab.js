@@ -1,19 +1,19 @@
-
- if(!user.authenticated){
+if(!user.authenticated){
     myNavigator.resetToPage('manchetes.html')
     console.log("User not auth in loadUser fn")
 
 } else {
 
-    var noticiasTab, noticiaIndexTab;
+showLoading();
 
-    function goToNewsTextTab(el){
-        noticiaIndexTab = el.id;
-        if(noticiaIndex !== "noticias-list" || noticiaIndex !== ""){
-            fn.load("noticia-texto-tab.html"); 
-        }
+var noticiasTab, noticiaIndexTab;
+
+function goToNewsTextTab(el){
+    noticiaIndexTab = el.id;
+    if(noticiaIndex !== "noticias-list" || noticiaIndex !== ""){
+        fn.load("noticia-texto-tab.html"); 
     }
-
+}
 
 var loadNoticiasTab = function(){
 
@@ -38,13 +38,10 @@ var loadNoticiasTab = function(){
                 var noticias = JSON.parse(noticiasText);
                 ajaxNoticiasTab.parseJSONP(noticias);
             }
-            
         }
-
         request.onerror = function(){
             document.querySelector('#erro-noticia-tab').innerHTML = '<p class="error-request">Ocorreu um erro ao buscar as noticias, tente mais tarde.</p>';
         }
-
         request.send();
 }
 
@@ -57,11 +54,10 @@ var loadNoticiasTab = function(){
             noticiasTab = result;
             
             var html = '';
-            var error = document.getElementById('sem-noticia-tab');
+            var error = document.getElementById('erro-noticia-tab');
             var noticiasListTab = document.getElementById('noticias-list-tab');
         
             if(noticiasTab == null || noticiasTab.length < 1){
-        
                 noticiasListTab.innerHTML = "";
                 error.innerHTML = "<div class='error'><h3>Nao há noticias para esta categoria.</h3></div>";
         
@@ -90,7 +86,6 @@ var loadNoticiasTab = function(){
                 });
                     noticiasListTab.innerHTML = html;
             }
-
 
 
         var pullHook = document.getElementById('pull-hook-noticias-tab');

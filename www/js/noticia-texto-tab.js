@@ -1,6 +1,8 @@
  
 var runNoticiasTextoTab = function(){
 
+    showLoading();
+
     var linkTab = "'"+noticiasTab[noticiaIndexTab].link+"'";
     var id = noticiasTab[noticiaIndexTab].id;
     var tipo = noticiasTab[noticiaIndexTab].tipo;
@@ -12,22 +14,30 @@ var runNoticiasTextoTab = function(){
             dataType: "text",
             async: true,
             success: function(result){
-                ajaxNoticiaTexto.parseJSON(result);
-                modal.hide();
+                ajaxNoticiaTextoTab.parseJSON(result);
             },
             error: function (request, error) {
-                alert('Network error has occurred please try again!');
-                modal.hide();
+                document.getElementById("texto-noticia-tab").innerHTML = "<p id='error-request'>Ocorreu um erro ao buscar noticia no servidor da Manchete.</p>";
+            
             }
         });
         
 
-    var ajaxNoticiaTexto = {
+    var ajaxNoticiaTextoTab = {
 
         parseJSON: function(result) {
+
             result = result.substring(1, result.length - 1);
+
             var textoNoticia = JSON.parse(result);
-            var texto = document.getElementById('texto-noticia');
+
+            if(textoNoticia.texto == ""){
+               
+                document.getElementById("texto-noticia-tab").innerHTML = "<p id='error-request'>Ocorreu um erro ao buscar noticia no servidor da Manchete.</p>";
+            }else{
+
+            var texto = document.getElementById('texto-noticia-tab');
+            var titulo = document.getElementById('titulo-noticia');
         
             var sys = "'_system'"
             var ext = linkTab.split(".");
@@ -50,35 +60,33 @@ var runNoticiasTextoTab = function(){
                     }
                 }
 
-                var browseBtns = document.querySelector('#browse-btns');
+            var browseBtns = document.querySelector('#browse-btns');
 
-                shareLink =  linkTab.substring(9);
+            shareLink =  linkTab.substring(9);
 
-                browseBtns.innerHTML = '<div style="text-align: right; padding: 10px;">'+icon;
-                // '<a onclick="guardarFavoritos()" id="guardar-favoritos"><button class="fab fab--mini" disabled><i class="zmdi zmdi-favorite"></i></button></div>';
+            browseBtns.innerHTML = '<div style="text-align: right; padding: 10px;">'+icon;
 
-                texto.innerHTML = textoNoticia.texto;
-                
-                var tituloTexto = document.getElementsByTagName('p')[0];
+            // '<a onclick="guardarFavoritos()" id="guardar-favoritos"><button class="fab fab--mini" disabled><i class="zmdi zmdi-favorite"></i></button></div>';
 
-                document.getElementById('titulo-noticia').appendChild(tituloTexto);
+            texto.innerHTML = textoNoticia.texto;
+            
+            var tituloTexto = document.getElementsByTagName('p')[0];
+
+            titulo.appendChild(tituloTexto);
+
+            }
         }
     }
 }
     
 
 function shareEmailTab(){
-    console.log("criar email tab")
-
     var dialog = document.getElementById('email-dialog-tab');
     dialog.show();
-
 }
 
 const sendEmailBtnTab = function (){
-
     sendEmail(noticiasTab[noticiaIndexTab].id, noticiasTab[noticiaIndexTab].tipo);
-
 }
 
 function shareFacebook(){

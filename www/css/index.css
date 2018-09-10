@@ -28,6 +28,12 @@ body{
     margin-bottom: 90px;
 }
 
+#texto-noticia-tab{
+    padding-left: 4%;
+    padding-right: 4%;
+    margin-bottom: 90px;
+}
+
 #titulo-noticia{
     padding-left: 4%;
     padding-right: 4%;
@@ -121,12 +127,6 @@ ons-progress-circular{
 
 .disabled{
    color: rgb(199, 199, 199);
-}
-
-#no-internet{
-    color: #a1a1a1;
-    margin: 2%;
-    margin-top: 40%;
 }
 
 #error-request{

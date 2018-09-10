@@ -6,18 +6,18 @@ var runPesquisa = function (){
 
         var urlMeios = 'https://services.manchete.pt:8002/Clientes.asmx/getClippingbyUser?user=' + login + '&password=' + pass + '&callback=';
 
-        $.ajax({
-            url: urlMeios,
-            dataType: "text",
-            async: true,
-            success: function (result) {
-                ajaxMeios.parseJSON(result);
-                modal.hide();
-            },
-            error: function (request, error) {
-                alert('Erro ao buscar dados do servidor, tente mais tarde.');
-            }
-        });
+            $.ajax({
+                url: urlMeios,
+                dataType: "text",
+                async: true,
+                success: function (result) {
+                    ajaxMeios.parseJSON(result);
+                    modal.hide();
+                },
+                error: function (request, error) {
+                    alert('Erro ao buscar dados do servidor, tente mais tarde.');
+                }
+            });
             
         var ajaxMeios = {
 
@@ -28,7 +28,7 @@ var runPesquisa = function (){
                 var parsed = JSON.parse(result);
                 var selectDiv = document.querySelector('#select_meios');
                 var selectHTML = '<ons-select id="meio" onchange="runAjaxPublicacao()">';
-                    selectHTML += '<option value="" disabled selected>Escolha o meio</option>'
+                    selectHTML += '<option value="" disabled selected>Escolha o meio</option>';
                 for (i = 0; i < parsed.length; i++) {
                     selectHTML += "<option value='" + parsed[i].referencia3 + "'>" + parsed[i].clipping + "</option>";
                 }
@@ -52,25 +52,25 @@ var runPesquisa = function (){
             }
         });
 
-        var ajaxTema = {
+    var ajaxTema = {
 
-            parseJSON: function (result) {
+        parseJSON: function (result) {
 
-                var result = result.substring(1, result.length - 1);
-                
-                var parsed = JSON.parse(result);
+            var result = result.substring(1, result.length - 1);
+            
+            var parsed = JSON.parse(result);
 
-                var selectDiv = document.querySelector('#select_temas');
-                var selectHTML = '<ons-select id="tema" class="select">'
-                    selectHTML += '<option value="" disabled selected>Escolha o tema</option>'
+            var selectDiv = document.querySelector('#select_temas');
+            var selectHTML = '<ons-select id="tema" class="select">'
+                selectHTML += '<option value="" disabled selected>Escolha o tema</option>'
 
-                for (i = 0; i < parsed.length; i++) {
-                    selectHTML += "<option value='" + parsed[i].referencia4+ "'>" + parsed[i].tema + "</option>";
-                }
-                selectHTML += "</ons-select>";
-                selectDiv.innerHTML = selectHTML;
-                
+            for (i = 0; i < parsed.length; i++) {
+                selectHTML += "<option value='" + parsed[i].referencia4+ "'>" + parsed[i].tema + "</option>";
             }
+            selectHTML += "</ons-select>";
+            selectDiv.innerHTML = selectHTML;
+            
+        }
         }
     }
 
@@ -102,6 +102,7 @@ var runPesquisa = function (){
                 var parsed = JSON.parse(result);
                 var selectDiv = document.querySelector('#select_publicacao');
                 var selectHTML = '<ons-select id="publicacao" class="select">';
+                 
 
                     for (i = 0; i < parsed.length; i++) {
                         selectHTML += "<option value='" + parsed[i].fonte + "'>" + parsed[i].fonte + "</option>";
@@ -129,7 +130,7 @@ var runSearch = function(){
 
         if(dataInicio == "" || dataFim == "" ){
             ons.notification.toast('Preencha as datas para a pesquisa', {
-                timeout: 1000
+                timeout: 3000
               });
         } else {
 
